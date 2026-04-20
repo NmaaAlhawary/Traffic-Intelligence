@@ -76,7 +76,9 @@ var detectorTable = document.getElementById("detector-table");
 var signalTable = document.getElementById("signal-table");
 var metadataPreview = document.getElementById("metadata-preview");
 var groundtruthList = document.getElementById("groundtruth-list");
+var cctvStream = document.getElementById("cctv-stream");
 var cctvStatus = document.getElementById("cctv-status");
+var cctvLink = document.getElementById("cctv-link");
 
 var SPEED = 3, SCALE_SPEED = 1.01;
 var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
@@ -114,6 +116,33 @@ let ready = false;
 let roadnetData = [];
 let replayData = [];
 let chartData = [];
+
+function initCctvStream() {
+    if (!cctvStream || !cctvStatus || !cctvLink) {
+        return;
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var cctvHost = params.get("cctvHost") || window.location.hostname || "127.0.0.1";
+    var cctvPort = params.get("cctvPort") || "8010";
+    var cctvBaseUrl = "http://" + cctvHost + ":" + cctvPort;
+    var cctvFeedUrl = cctvBaseUrl + "/video_feed";
+
+    cctvStream.src = cctvFeedUrl;
+    cctvLink.href = cctvBaseUrl + "/";
+    cctvStatus.textContent = cctvHost + ":" + cctvPort + " · connecting";
+
+    cctvStream.addEventListener("load", function () {
+        cctvStatus.textContent = cctvHost + ":" + cctvPort + " · live";
+    });
+
+    cctvStream.addEventListener("error", function () {
+        cctvStatus.textContent = cctvHost + ":" + cctvPort + " · stream unavailable";
+        cctvLink.textContent = "↗ Open server";
+    });
+}
+
+initCctvStream();
 
 function handleChooseFile(v, label_dom) {
     return function(evt) {
@@ -429,12 +458,14 @@ function initCanvas() {
 }
 
 function showCanvas() {
-    document.getElementById("spinner").classList.add("d-none");
+    const sp = document.getElementById("spinner");
+    if (sp) { sp.classList.remove("d-none"); sp.classList.remove("show"); sp.style.display = "none"; }
     app.view.classList.remove("d-none");
 }
 
 function hideCanvas() {
-    document.getElementById("spinner").classList.remove("d-none");
+    const sp = document.getElementById("spinner");
+    if (sp) { sp.style.display = "flex"; sp.classList.add("show"); }
     app.view.classList.add("d-none");
 }
 

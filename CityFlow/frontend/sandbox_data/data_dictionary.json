@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-20",
+  "files": {
+    "cctv_stream_config.json": {
+      "description": "CCTV live-stream configuration (6.1)",
+      "fields": {
+        "stream_id": "Unique stream identifier",
+        "source_video": "Backing video file name",
+        "stream_url": "Local HTTP endpoint for MJPEG feed",
+        "frame_spec": "Resolution, FPS and AI ingestion range",
+        "serve_command": "Shell command to launch the CCTV server"
+      }
+    },
+    "historical_pack_manifest.json": {
+      "description": "Two-week historical CCTV training clip manifest (6.2)",
+      "fields": {
+        "clip_id": "date_scenario key",
+        "source_video": "Backing video (sense01 or sense02)",
+        "labels": "Event labels present in the clip",
+        "annotation_file": "Pointer to COCO-like annotation JSON"
+      }
+    },
+    "detector_counts_15min.csv": {
+      "description": "15-minute aggregated detector counts for 22 detectors (6.3)",
+      "fields": {
+        "timestamp": "ISO-8601 slot start time",
+        "intersection_id": "Site identifier",
+        "detector_id": "D01\u2013D22 (D01\u2013D06 derived from SimToll)",
+        "approach": "North / East / South / West / Toll / Carpool",
+        "lane_label": "Lane identifier within approach",
+        "vehicle_count": "Aggregated vehicle count in slot",
+        "avg_speed_kmh": "Average lane speed (SimToll or synthetic)",
+        "source": "SimToll-15K-Day1 or synthetic-extended"
+      }
+    },
+    "signal_timing_log.csv": {
+      "description": "24-hour adaptive signal timing event log (6.4)",
+      "fields": {
+        "timestamp": "ISO-8601 event start time",
+        "intersection_id": "Site identifier",
+        "phase_number": "1\u20134",
+        "signal_state": "GREEN ON | YELLOW ON | RED ON",
+        "duration_sec": "State duration in seconds",
+        "control_mode": "adaptive (peak hours) or fixed"
+      }
+    },
+    "intersection_metadata.json": {
+      "description": "Full intersection schema \u2013 camera, lanes, zones (6.5)",
+      "fields": {
+        "camera": "Camera spec and stream URL",
+        "lane_configurations": "Per-approach lane list",
+        "stop_lines": "Pixel coordinates of stop lines",
+        "monitoring_zones": "Queue/incident detection polygons",
+        "simtoll_reference": "Source dataset attribution"
+      }
+    },
+    "ground_truth_validation.json": {
+      "description": "Labeled validation windows and SimToll incident proxies (6.6)",
+      "fields": {
+        "validation_windows": "Frame-level annotated event windows",
+        "simtoll_vehicle_events": "Late-arrival incidents from SimToll Vehicle Info"
+      }
+    },
+    "annotations/sense02_tracklab_vehicle.json": {
+      "description": "Raw TrackLab YOLO vehicle detections for sense02.mp4",
+      "fields": {
+        "annotations[].image_id": "Frame index (0-based)",
+        "annotations[].bbox": "[x, y, w, h] in pixels",
+        "annotations[].score": "Detection confidence 0\u20131",
+        "annotations[].category_id": "2 = vehicle"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start All CCTV Streams + Frontend",
+			"type": "shell",
+			"command": "pkill -f cctv_web.py 2>/dev/null; pkill -f 'http.server 8080' 2>/dev/null; sleep 1; cd '/Users/namaaalhawary/Desktop/Traffic 2/CityFlow' && python3.11 tools/cctv_web.py data/wts_videos/sense01.mp4 --port 8010 --camera-id 'CAM-01 NORTH' --width 1280 --height 720 --fps 10 --annotations data/wts_annotations/sense01_tracklab_vehicle.json --show-labels & python3.11 tools/cctv_web.py data/wts_videos/sense02.mp4 --port 8011 --camera-id 'CAM-02 SOUTH' --width 1280 --height 720 --fps 10 --annotations data/wts_annotations/sense02_tracklab_vehicle.json --show-labels & python3.11 tools/cctv_web.py data/wts_videos/sense01.mp4 --port 8012 --camera-id 'CAM-03 EAST' --width 1280 --height 720 --fps 8 & python3.11 tools/cctv_web.py data/wts_videos/sense02.mp4 --port 8013 --camera-id 'CAM-04 WEST' --width 1280 --height 720 --fps 12 & sleep 3 && cd '/Users/namaaalhawary/Desktop/Traffic 2/CityFlow/frontend' && python3.11 -m http.server 8080",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

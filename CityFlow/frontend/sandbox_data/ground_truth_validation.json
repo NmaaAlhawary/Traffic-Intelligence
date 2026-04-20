@@ -1,7 +1,38 @@
 {
+  "schema_version": "1.1",
+  "primary_video": "sense02.mp4",
+  "annotation_file": "annotations/sense02_tracklab_vehicle.json",
+  "annotation_format": "COCO-like (image_id=frame_index, bbox=[x,y,w,h])",
+  "total_vehicle_detections": 29927,
+  "event_labels": [
+    "vehicle",
+    "incident",
+    "congestion-event",
+    "abnormal-stopping",
+    "unexpected-trajectory",
+    "queue-spillback-marker",
+    "normal-flow",
+    "low-density"
+  ],
   "validation_windows": [
     {
+      "window_id": "VAL-001",
       "video": "sense02.mp4",
+      "start_frame": 0,
+      "end_frame": 450,
+      "start_time_s": 0,
+      "end_time_s": 15,
+      "labels": [
+        "vehicle",
+        "normal-flow"
+      ],
+      "notes": "Baseline window \u2013 vehicles moving freely through intersection."
+    },
+    {
+      "window_id": "VAL-002",
+      "video": "sense02.mp4",
+      "start_frame": 420,
+      "end_frame": 930,
       "start_time_s": 14,
       "end_time_s": 31,
       "labels": [
@@ -11,23 +42,44 @@
       "notes": "Eastbound queue extends beyond stop line and occupies upstream lane."
     },
     {
+      "window_id": "VAL-003",
       "video": "sense02.mp4",
+      "start_frame": 1290,
+      "end_frame": 1710,
       "start_time_s": 43,
       "end_time_s": 57,
       "labels": [
         "abnormal-stopping",
         "incident-label"
       ],
-      "notes": "One vehicle remains stationary in the conflict zone for multiple cycles."
+      "notes": "One vehicle remains stationary in the conflict zone for multiple signal cycles."
     },
     {
+      "window_id": "VAL-004",
       "video": "sense01.mp4",
+      "start_frame": 600,
+      "end_frame": 1020,
       "start_time_s": 20,
       "end_time_s": 34,
       "labels": [
         "unexpected-trajectory"
       ],
-      "notes": "Vehicle performs non-standard lateral movement across the monitored approach."
+      "notes": "Vehicle performs non-standard lateral movement across monitored approach."
+    },
+    {
+      "window_id": "VAL-005",
+      "video": "sense02.mp4",
+      "start_frame": 1800,
+      "end_frame": 2400,
+      "start_time_s": 60,
+      "end_time_s": 80,
+      "labels": [
+        "congestion-event",
+        "queue-spillback-marker",
+        "vehicle"
+      ],
+      "notes": "Heavy congestion across all approaches during simulated morning peak."
     }
-  ]
+  ],
+  "simtoll_vehicle_events": []
 }

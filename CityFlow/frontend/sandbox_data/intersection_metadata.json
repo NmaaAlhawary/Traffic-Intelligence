@@ -1,12 +1,15 @@
 {
+  "schema_version": "1.1",
   "intersection_id": "INT-001",
-  "site_name": "Phase 1 Traffic Sandbox",
+  "site_name": "Phase 1 Traffic Sandbox \u2013 Signalised Intersection",
+  "coordinate_reference": "local-pixel (origin = top-left of 1920\u00d71080 frame)",
   "camera": {
     "camera_id": "WTS CAM 02",
+    "source_video": "sense02.mp4",
     "stream_url": "http://127.0.0.1:8010/video_feed",
     "location": {
-      "x": 0,
-      "y": -65,
+      "x": 960,
+      "y": 540,
       "height_m": 12.5
     },
     "field_of_view_deg": 78,
@@ -14,11 +17,11 @@
       1920,
       1080
     ],
-    "ingest_fps_range": [
+    "codec_assumption": "H.264/H.265",
+    "ai_ingestion_fps_range": [
       5,
       15
-    ],
-    "codec_assumption": "H.264/H.265"
+    ]
   },
   "lane_configurations": [
     {
@@ -26,7 +29,8 @@
       "lanes": [
         "N-1 through",
         "N-2 through",
-        "N-3 left"
+        "N-3 left",
+        "N-4 right"
       ]
     },
     {
@@ -51,6 +55,20 @@
         "W-1 through",
         "W-2 through",
         "W-3 right"
+      ]
+    },
+    {
+      "approach": "Toll",
+      "lanes": [
+        "Toll-1",
+        "Toll-2"
+      ]
+    },
+    {
+      "approach": "Carpool",
+      "lanes": [
+        "CP-1",
+        "CP-2"
       ]
     }
   ],
@@ -126,6 +144,50 @@
       ]
     },
     {
+      "zone_id": "Q-S",
+      "type": "queue_spillback",
+      "points": [
+        [
+          640,
+          880
+        ],
+        [
+          820,
+          880
+        ],
+        [
+          820,
+          1080
+        ],
+        [
+          640,
+          1080
+        ]
+      ]
+    },
+    {
+      "zone_id": "Q-W",
+      "type": "queue_spillback",
+      "points": [
+        [
+          0,
+          640
+        ],
+        [
+          540,
+          640
+        ],
+        [
+          540,
+          820
+        ],
+        [
+          0,
+          820
+        ]
+      ]
+    },
+    {
       "zone_id": "INC-BOX",
       "type": "incident_core",
       "points": [
@@ -146,6 +208,44 @@
           860
         ]
       ]
+    },
+    {
+      "zone_id": "TOLL-Z",
+      "type": "toll_monitoring",
+      "points": [
+        [
+          800,
+          300
+        ],
+        [
+          1100,
+          300
+        ],
+        [
+          1100,
+          520
+        ],
+        [
+          800,
+          520
+        ]
+      ]
     }
-  ]
+  ],
+  "simtoll_reference": {
+    "dataset": "SimToll: A Highway Toll, Lane Selection, and Traffic Modeling Dataset",
+    "authors": "A. Al-Mousa, R. Alqudah, A. Faza \u2013 Princess Sumaya University for Technology",
+    "populations_used": [
+      "15K",
+      "20K",
+      "25K"
+    ],
+    "lane_types": [
+      "Toll lane",
+      "Regular Lane 1",
+      "Regular Lane 2",
+      "Regular Lane 3",
+      "CarPool Lane"
+    ]
+  }
 }

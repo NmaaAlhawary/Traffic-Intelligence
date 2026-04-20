@@ -5,7 +5,7 @@ from pathlib import Path
 import random
 
 
-ROOT = Path("/Users/namaaalhawary/Desktop/Traffic/CityFlow")
+ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "frontend" / "sandbox_data"
 VIDEOS = ROOT / "data" / "wts_videos"
 
