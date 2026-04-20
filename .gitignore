@@ -1,0 +1,21 @@
+# Virtual environments
+.venv*/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dylib
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# DS Store
+.DS_Store
+
+# Large binary/compiled files
+*.abi3.so
