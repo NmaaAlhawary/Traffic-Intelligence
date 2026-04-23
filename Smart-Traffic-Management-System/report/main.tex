@@ -1,0 +1,90 @@
+\documentclass[12pt,a4paper,openright]{report} %twoside
+%-----------------------------------------------------------------
+% LaTeX template for a Bachelor Project Report/Thesis (CSE 400) 
+% of the Department of Computer Science and Engineering  at the 
+% Green University of Bangladesh (GUB)
+
+% Written By: Muhammad Abul Hasan, PhD
+% Date Updated: January 01, 2024 (v1.0)
+% For any comments or suggestions: muhammad.hasan@cse.green.edu.bd
+%-----------------------------------------------------------
+\usepackage{float}
+\usepackage{gubcse400}
+
+% Change the name and designation of Chairperson of dept. as required
+\def\HodName{Professor Dr. Md. Ahsan Habib\xspace}
+\def\HodPosition{Chairperson of CSE\xspace}
+%
+%-----------------------------------------------------------
+% Set your report/thesis particulars 
+%-----------------------------------------------------------
+%
+% Use one: Thesis/Project report
+\def\RoportType{Project\xspace} 
+%\def\RoportType{Project report\xspace}
+%
+%
+\def\ReportTitle{AI Based Traffic Management System\xspace}
+\def\Supervisor{Md. Atikuzzaman\xspace} 
+\def\SupervisorPosition{Lecturer\xspace}
+%
+%
+%\def\reportSubmissionDate{\today}
+\def\reportSubmissionDate{July 08, 2025}
+\def\reportSubmissionTerm{Spring 2025}
+
+
+%-----------------------------------------------------------
+% Set your group members' particulars 
+%-----------------------------------------------------------
+%
+\def\numberOfAuthors{2}
+%
+\def\firstAuthor{Abdul Alim Monshi\xspace} 
+\def\firstAuthorID{212002073\xspace}
+\def\firstAuthorDedication{Dedicated to \\ \textit{my loving Mother}}
+%
+\def\secondAuthor{Zabia Ferdusi\xspace} 
+\def\secondAuthorID{212002077\xspace} 
+\def\secondAuthorDedication{To my beloved parents\\ \textit{the source of my inspiration}}
+%
+\def\thirdAuthor{Third Author\xspace} 
+\def\thirdAuthorID{000000000\xspace} 
+\def\thirdAuthorDedication{To ... \\ \textit{xyz} \\ a good soul.}
+%
+%-----------------------------------------------------------
+% Set Board members' particulars 
+%-----------------------------------------------------------
+%
+\def\BoardNumber{10} % board number in which you are going to present your work
+%
+\def\BoardChair{Board Chair's Name\xspace} 
+\def\BoardChairPosition{Board Chair's Position\xspace}
+%
+\def\BoardMember{Board Member's Name\xspace} 
+\def\BoardMemberPosition{Board Member's Position\xspace} 
+%
+\def\BoardExternalMember{External Member's Name\xspace} 
+\def\BoardExternalMemberPosition{External Member's Position\xspace} 
+\def\BoardExternalMemberAffiliation{External Member's Affiliation\xspace}
+%
+%-----------------------------------------------------------
+\begin{document}
+\input{./Setup/front}
+%-----------------------------------------------------------
+% Include Chapters 
+%-----------------------------------------------------------
+ \include{./Chapters/chapter1}
+ \include{./Chapters/chapter2}
+ \include{./Chapters/chapter3}
+ \include{./Chapters/chapter4}
+ \include{./Chapters/chapter5}
+ \include{./Chapters/chapter6}
+ \include{./Chapters/chapter7}
+ \input{./Setup/rear}  %include Reference Section
+ \include{./Chapters/chapter8} %include Appendices Section
+ % \include{./Chapters/chapter9}
+  \coverpage{\numberOfAuthors}
+%-----------------------------------------------------------
+
+\end{document}

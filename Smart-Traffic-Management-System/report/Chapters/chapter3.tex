@@ -1,0 +1,136 @@
+\chapter{Methodology}
+
+This chapter presents the systematic approach adopted to design, develop, and implement an AI-Based Traffic Management System that monitors and controls vehicle flow at urban intersections. The methodology includes the system's layered architecture, data acquisition, vehicle detection using computer vision, signal control logic, backend communication, and deployment strategy.
+
+\section{System Architecture Overview}
+
+The proposed system follows a layered architecture (see Figure~\ref{fig:architecture}):
+
+\begin{enumerate}
+    \item \textbf{Frontend Layer} — A Kotlin Jetpack Compose desktop interface for real-time monitoring, analytics, and control.
+    \item \textbf{Backend Layer} — Developed with Ktor, serving REST APIs and WebSocket channels for real-time communication.
+    \item \textbf{AI/ML Processing Layer} — A Python module powered by YOLOv8, deployed via ONNX Runtime for efficient object detection.
+    \item \textbf{Infrastructure Layer} — Hosted on a Google Cloud Platform (GCP) virtual machine instance.
+\end{enumerate}
+
+Each layer communicates using well-defined APIs and messaging protocols, allowing modular testing and independent deployment.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/architecture_diagram.png}
+\caption{System Architecture Diagram}
+\label{fig:architecture}
+\end{figure}
+
+\section{Vehicle Detection Using Computer Vision}
+
+The core of real-time traffic analysis is vehicle detection, performed using a deep learning model based on YOLOv8 \cite{yolov8}. The detection workflow is as follows:
+
+\begin{itemize}
+    \item \textbf{Model:} YOLOv8, trained on COCO dataset and fine-tuned where necessary.
+    \item \textbf{Classes Detected:} \textit{car}, \textit{motorcycle}, \textit{bus}, and \textit{truck}.
+    \item \textbf{Inference:} Executed using ONNX Runtime in Python for optimized performance.
+    \item \textbf{Pipeline:}
+    \begin{enumerate}
+        \item Frames are captured from live CCTV footage or offline video.
+        \item Each frame is resized and normalized before inference.
+        \item Detections are parsed into bounding boxes and classified by type and direction.
+        \item Aggregated vehicle counts per direction are serialized into JSON.
+    \end{enumerate}
+\end{itemize}
+
+This data is transmitted to the backend using either HTTP POST or persistent WebSocket.
+
+\section{Traffic Signal Decision Logic}
+
+Upon receiving vehicle counts, the backend applies a decision-making algorithm to determine the next green phase.
+
+\subsection{Rule-Based Scheduling Algorithm}
+
+The first approach uses a weighted scoring formula:
+
+\[
+\text{Score}_d = \alpha \cdot \text{VehicleCount}_d + \beta \cdot \text{WaitTime}_d
+\]
+
+Where:
+\begin{itemize}
+    \item $d$ represents each direction: North, South, East, or West.
+    \item $\alpha$ and $\beta$ are hyperparameters adjusted via simulation.
+    \item $\text{WaitTime}_d$ is updated every cycle.
+\end{itemize}
+
+The direction with the highest score is granted the green light.
+
+\subsection{Machine Learning-Based Classifier (Optional)}
+
+To improve decision-making under varying traffic conditions, a Decision Tree classifier is trained on historical and synthetic data. Key features include:
+
+\begin{itemize}
+    \item Real-time vehicle counts from all directions
+    \item Current signal phase and elapsed duration
+    \item Time-of-day classification (e.g., peak, off-peak)
+    \item Emergency vehicle presence (boolean flag)
+\end{itemize}
+
+This model predicts the optimal direction to prioritize for the next cycle \cite{wang2020real}.
+
+\section{Backend Communication and Coordination}
+
+Ktor acts as the central controller for managing system state and interactions:
+
+\begin{itemize}
+    \item \textbf{Data Ingestion:} Accepts POST requests from the AI module.
+    \item \textbf{Signal Logic Execution:} Applies rule-based or model-based logic every 10 seconds.
+    \item \textbf{Frontend Updates:} Pushes signal state via WebSocket.
+    \item \textbf{Administrative APIs:} Serves endpoints for analytics, system status, and reporting.
+\end{itemize}
+
+\textbf{Example Endpoints:}
+\begin{itemize}
+    \item \texttt{POST /api/vehicle-count}
+    \item \texttt{GET /api/signal-status}
+    \item \texttt{WS /ws/live}
+\end{itemize}
+
+\section{Frontend Monitoring and Visualization}
+
+The frontend application is implemented using Jetpack Compose Desktop. It provides:
+
+\begin{itemize}
+    \item \textbf{Dashboard:} Real-time status of each traffic light and vehicle density.
+    \item \textbf{Live Feed Panel:} Optional integration of annotated snapshots.
+    \item \textbf{Analytics View:} Graphs and charts showing wait times and flow rates.
+    \item \textbf{Control Tools:} Manual override, system logs, and report export options.
+\end{itemize}
+
+State is managed using reactive streams (`StateFlow`) that listen for updates from the WebSocket channel.
+
+\section{Deployment on Google Cloud}
+
+The entire stack is deployed to a GCP virtual machine for 24/7 access and monitoring:
+
+\begin{itemize}
+    \item \textbf{VM Configuration:} Ubuntu 22.04 LTS, 4 vCPUs, 8 GB RAM.
+    \item \textbf{Backend:} Ktor server daemonized via \texttt{systemd}.
+    \item \textbf{AI Layer:} Python scripts initiated via supervisor or cron.
+    \item \textbf{Security:} Only necessary ports exposed (e.g., 80/443), others firewalled.
+    \item \textbf{Monitoring:} Logs are persisted and visualized via Prometheus and Grafana (optional).
+\end{itemize}
+
+\section{Evaluation Strategy}
+
+The evaluation of the system includes both objective metrics and empirical observations:
+
+\begin{itemize}
+    \item \textbf{Detection Accuracy:} Verified against manually annotated ground truth \cite{jia2019traffic}.
+    \item \textbf{Latency:} Measured from video frame capture to frontend update.
+    \item \textbf{Signal Efficiency:} Compared average wait times against fixed-time baseline.
+    \item \textbf{Robustness:} Tested under frame drop, camera failure, and traffic surge conditions.
+\end{itemize}
+
+Experiments were performed using real video samples from congested intersections in Dhaka (e.g., Mirpur 10).
+
+\section{Summary}
+
+This chapter has outlined the full technical methodology behind the AI-Based Traffic Management System, including data flow, architecture, algorithmic strategies, and deployment practices. By combining machine learning, computer vision, and reactive software design, the system is well-equipped to address real-world traffic challenges in developing cities \cite{zhao2017improving, chen2018ai}.

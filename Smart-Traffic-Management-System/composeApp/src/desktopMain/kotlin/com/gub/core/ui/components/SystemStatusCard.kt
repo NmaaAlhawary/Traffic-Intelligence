@@ -1,0 +1,84 @@
+package com.gub.core.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.gub.core.domain.Response
+import com.gub.models.core.ModelSystemStatus
+
+@Composable
+fun SystemStatusCard(response : Response<ModelSystemStatus>) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary.copy(0.1F)
+        )
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "System Status",
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 14.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            when(response) {
+                Response.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is Response.Error -> {
+                    Text(
+                        text = response.error,
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 14.sp
+                    )
+                }
+                is Response.Success -> {
+                    StatusItem(
+                        label = "CPU", value = "${response.data.cpuUsage}%",
+                        color = if (response.data.cpuUsage > 80) Color(0xFFFF9800) else Color(0xFF4CAF50)
+                    )
+                    val memoryUsages = (response.data.usedMemoryMb * 100) / response.data.totalMemoryMb
+                    StatusItem(
+                        label = "Memory", value = "$memoryUsages%",
+                        color = if (memoryUsages > 80) Color(0xFFFF9800) else Color(0xFF4CAF50)
+                    )
+                    StatusItem(
+                        label = "Network", value = "${response.data.latencyMs}ms",
+                        color = if (response.data.latencyMs > 100) Color(0xFFFF9800) else Color(0xFF4CAF50)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun StatusItem(label: String, value: String, color: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(label, color = Color.Gray, fontSize = 12.sp)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .background(color, CircleShape)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(value, color = MaterialTheme.colorScheme.onSurface, fontSize = 12.sp)
+        }
+    }
+}

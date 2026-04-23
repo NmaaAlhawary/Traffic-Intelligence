@@ -1,0 +1,111 @@
+\chapter*{Appendices}
+
+\addcontentsline{toc}{chapter}{Appendices}
+
+\section*{Appendix A: Sample Vehicle Detection Logs}
+
+The following table shows a sample extract of the raw data collected by the vehicle detection module. It records vehicle counts per direction, signal states, and timestamps at 10-second intervals.
+
+\begin{table}[H]
+\centering
+\caption*{Vehicle Detection Log Sample}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Timestamp} & \textbf{North} & \textbf{South} & \textbf{East} & \textbf{West} & \textbf{Green Signal} \\
+\hline
+10:00:00 & 15 & 8  & 12 & 5  & North \\
+10:00:10 & 10 & 9  & 14 & 7  & East \\
+10:00:20 & 6  & 15 & 8  & 10 & South \\
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\section*{Appendix B: Core Python Script for Vehicle Detection}
+
+Below is a snippet from the Python script that performs real-time vehicle detection using the YOLOv8 model and ONNX Runtime:
+
+\begin{verbatim}
+import onnxruntime as ort
+import cv2
+import numpy as np
+
+# Load YOLOv8 ONNX model
+session = ort.InferenceSession("yolov8.onnx")
+
+def preprocess_frame(frame):
+    # Resize and normalize frame
+    resized = cv2.resize(frame, (640, 640))
+    img = resized.transpose(2, 0, 1) / 255.0
+    img = img[np.newaxis, ...].astype(np.float32)
+    return img
+
+def detect_vehicles(frame):
+    input_tensor = preprocess_frame(frame)
+    outputs = session.run(None, {'images': input_tensor})
+    # Process outputs to extract bounding boxes and class IDs
+    # ...
+    return detections
+\end{verbatim}
+
+\vspace{0.5cm}
+
+\section*{Appendix C: Backend API Endpoints}
+
+The backend server exposes REST and WebSocket endpoints to handle data ingestion and communication with the frontend and AI modules.
+
+\begin{itemize}
+    \item \texttt{POST /api/vehicle-count} - Receives JSON payloads containing vehicle detection counts.
+    \item \texttt{GET /api/signal-status} - Provides the current traffic signal state.
+    \item \texttt{WS /ws/live} - WebSocket endpoint streaming real-time traffic updates to the frontend dashboard.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\section*{Appendix D: Sample JSON Payload for Vehicle Counts}
+
+\begin{verbatim}
+{
+  "timestamp": "2025-07-06T10:00:00Z",
+  "counts": {
+    "north": 15,
+    "south": 8,
+    "east": 12,
+    "west": 5
+  },
+  "vehicle_types": {
+    "car": 25,
+    "motorcycle": 10,
+    "bus": 3,
+    "truck": 2
+  },
+  "green_signal": "north"
+}
+\end{verbatim}
+
+\vspace{0.5cm}
+
+\section*{Appendix E: System Deployment Configuration}
+
+Details of the Google Cloud Platform (GCP) VM setup used for deployment:
+
+\begin{itemize}
+    \item OS: Ubuntu 22.04 LTS
+    \item CPU: 4 vCPUs
+    \item RAM: 8 GB
+    \item GPU: NVIDIA Tesla T4
+    \item Docker installed for containerizing backend and AI modules
+    \item Ktor backend daemonized with systemd
+    \item Python AI scripts managed with Supervisor
+\end{itemize}
+
+\vspace{0.5cm}
+
+\section*{Appendix F: Additional Experiment Logs}
+
+This section contains extended logs of system performance metrics such as latency, detection accuracy over multiple test runs, and system uptime monitoring, available upon request or in the supplementary materials.
+
+---
+
+\textit{The appendices provide additional technical details to complement the main body of the report and support reproducibility and further development of the AI-Based Traffic Management System.}

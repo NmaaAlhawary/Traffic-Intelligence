@@ -1,0 +1,133 @@
+{
+  "defaults": {
+    "tracker": {
+      "high_thresh": 0.4,
+      "low_thresh": 0.15,
+      "match_iou_thresh": 0.28,
+      "low_match_iou_thresh": 0.18,
+      "new_track_thresh": 0.52,
+      "track_buffer_frames": 28,
+      "stationary_speed_px_s": 8.0
+    },
+    "events": {
+      "stalled_age_s": 5.0,
+      "stalled_stationary_s": 5.0,
+      "abnormal_prev_speed_px_s": 28.0,
+      "abnormal_current_speed_px_s": 8.0,
+      "abnormal_stationary_s": 1.5,
+      "trajectory_path_px": 90.0,
+      "trajectory_angle_deg": 115.0,
+      "queue_speed_px_s": 8.0,
+      "queue_min_tracks": 4,
+      "queue_cooldown_s": 6.0,
+      "congestion_history_samples": 6,
+      "congestion_min_total": 8,
+      "congestion_delta": 5,
+      "congestion_avg_speed_px_s": 18.0
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "y",
+        "side": "min",
+        "fraction": 0.35
+      }
+    }
+  },
+  "CAM-01 NORTH": {
+    "tracker": {
+      "high_thresh": 0.35,
+      "match_iou_thresh": 0.24,
+      "track_buffer_frames": 34
+    },
+    "events": {
+      "queue_min_tracks": 5,
+      "congestion_delta": 4
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "y",
+        "side": "min",
+        "fraction": 0.38
+      }
+    }
+  },
+  "CAM-02 SOUTH": {
+    "tracker": {
+      "high_thresh": 0.34,
+      "match_iou_thresh": 0.24,
+      "track_buffer_frames": 34
+    },
+    "events": {
+      "queue_min_tracks": 5,
+      "congestion_delta": 4
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "y",
+        "side": "max",
+        "fraction": 0.62
+      }
+    }
+  },
+  "CAM-03 EAST": {
+    "tracker": {
+      "high_thresh": 0.33,
+      "match_iou_thresh": 0.22,
+      "track_buffer_frames": 32
+    },
+    "events": {
+      "queue_min_tracks": 4,
+      "congestion_avg_speed_px_s": 20.0
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "x",
+        "side": "max",
+        "fraction": 0.68
+      }
+    }
+  },
+  "CAM-04 WEST": {
+    "tracker": {
+      "high_thresh": 0.33,
+      "match_iou_thresh": 0.22,
+      "track_buffer_frames": 32
+    },
+    "events": {
+      "queue_min_tracks": 4,
+      "congestion_avg_speed_px_s": 20.0
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "x",
+        "side": "min",
+        "fraction": 0.32
+      }
+    }
+  },
+  "WTS CAM 05": {
+    "tracker": {
+      "high_thresh": 0.3,
+      "match_iou_thresh": 0.2,
+      "track_buffer_frames": 36
+    },
+    "events": {
+      "queue_min_tracks": 6,
+      "congestion_min_total": 10,
+      "congestion_delta": 6
+    },
+    "zones": {
+      "queue": {
+        "mode": "band",
+        "axis": "y",
+        "side": "min",
+        "fraction": 0.42
+      }
+    }
+  }
+}

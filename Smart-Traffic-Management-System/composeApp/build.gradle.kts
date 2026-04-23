@@ -1,0 +1,152 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
+    kotlin("plugin.serialization") version "2.1.21"
+}
+
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+    
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
+    
+    jvm("desktop")
+    
+    sourceSets {
+        val desktopMain by getting
+        
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+
+            implementation("androidx.camera:camera-camera2:1.3.0")
+            implementation("androidx.camera:camera-lifecycle:1.3.0")
+            implementation("androidx.camera:camera-view:1.3.0")
+            implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+            implementation("org.java-websocket:Java-WebSocket:1.5.2")
+        }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(compose.materialIconsExtended)
+            implementation("dev.chrisbanes.haze:haze:1.6.7")
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
+
+            implementation("com.google.code.gson:gson:2.10.1")
+            implementation("io.ktor:ktor-client-logging:2.3.7")
+
+            implementation("io.ktor:ktor-client-core:2.3.5")
+            implementation("io.ktor:ktor-client-cio:2.3.5")
+            implementation("io.ktor:ktor-client-websockets:2.3.5")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.5")
+
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+
+            // Coroutines
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
+
+            // JSON
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+            // JavaFX for video playback (included in most JDKs)
+            implementation("org.openjfx:javafx-controls:19")
+            implementation("org.openjfx:javafx-media:19")
+            implementation("org.openjfx:javafx-web:19")
+            implementation("org.openjfx:javafx-swing:19")
+
+            // Open CV
+            implementation("org.bytedeco:javacv:1.5.8")
+            implementation("org.bytedeco:ffmpeg:4.5-1.5.8")
+            implementation("org.bytedeco:javacv-platform:1.5.12")
+//            implementation("org.bytedeco:ffmpeg-platform:4.5-1.5.8")
+
+
+            // WebSocket client
+            implementation("org.java-websocket:Java-WebSocket:1.5.3")
+
+            // Logging
+            implementation("ch.qos.logback:logback-classic:1.4.11")
+
+
+            implementation(projects.shared)
+        }
+    }
+}
+
+android {
+    namespace = "com.gub"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    defaultConfig {
+        applicationId = "com.gub"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.gub.app.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.gub"
+            packageVersion = "1.0.0"
+        }
+    }
+}

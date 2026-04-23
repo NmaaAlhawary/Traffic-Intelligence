@@ -1,0 +1,84 @@
+\chapter{Engineering Considerations}
+
+The successful development and deployment of an AI-Based Traffic Management System require addressing multiple engineering factors. These considerations ensure that the system is not only functional but also reliable, maintainable, scalable, and secure in real-world conditions.
+
+\section{System Architecture}
+
+The system follows a modular architecture consisting of four main layers~\cite{modular_architecture}:
+
+\begin{itemize}
+    \item \textbf{Frontend Layer:} Built with Kotlin Jetpack Compose, it provides a responsive UI for dashboards, analytics, monitoring, reports, and live feed views.
+    \item \textbf{Backend Layer:} Implemented using Ktor (Kotlin), it handles REST APIs, WebSocket-based real-time updates, and communication with the AI engine.
+    \item \textbf{AI/ML Processing Layer:} Python-based modules using YOLOv8 perform vehicle detection, traffic analytics, and predictive modeling~\cite{yolov8}.
+    \item \textbf{Infrastructure Layer:} Hosted on Google Cloud Platform using custom virtual machines for scalability, remote access, and load handling~\cite{gcp2023}.
+\end{itemize}
+
+\section{Hardware Requirements}
+
+The core hardware requirements include:
+
+\begin{itemize}
+    \item High-resolution CCTV camera for real-time video capture.
+    \item GPU-enabled virtual machine or edge device for YOLOv8 inference.
+    \item Stable internet connection for continuous data transmission and remote access.
+\end{itemize}
+
+\section{Software Requirements}
+
+\begin{itemize}
+    \item \textbf{Frontend:} Android Studio, Jetpack Compose
+    \item \textbf{Backend:} Kotlin + Ktor, PostgreSQL
+    \item \textbf{AI:} Python 3.x, OpenCV, Ultralytics YOLOv8, NumPy
+    \item \textbf{DevOps:} Docker, Git, Google Cloud SDK
+\end{itemize}
+
+\section{Scalability and Modularity}
+
+The system is designed to be scalable by:
+
+\begin{itemize}
+    \item Supporting multiple intersections and cameras by deploying additional AI processing modules.
+    \item Modular backend services allow horizontal scaling via containerization.
+    \item Stateless backend architecture makes it easier to integrate with third-party systems like city dashboards.
+\end{itemize}
+
+\section{Security Considerations}
+
+Security has been incorporated at every level~\cite{owasp}:
+
+\begin{itemize}
+    \item Secure API endpoints using JWT (JSON Web Tokens).
+    \item HTTPS and SSL encryption for backend communication.
+    \item Controlled access to video feeds and admin panels.
+    \item Logging and monitoring of anomalies using server-side logs and audit trails.
+\end{itemize}
+
+\section{Reliability and Fault Tolerance}
+
+To ensure high reliability:
+
+\begin{itemize}
+    \item AI detection fallback to last-known state in case of temporary failure.
+    \item Redundant video buffer storage in case of connectivity loss.
+    \item Heartbeat signals monitor system uptime, with auto-restart mechanisms.
+\end{itemize}
+
+\section{Sustainability and Maintenance}
+
+\begin{itemize}
+    \item Designed for long-term maintenance with separate configuration files and environment variables.
+    \item Modular codebase with clean architecture ensures testability and ease of upgrades~\cite{clean_architecture}.
+    \item Use of open-source libraries reduces cost and ensures community support.
+\end{itemize}
+
+\section{Legal and Ethical Considerations}
+
+\begin{itemize}
+    \item No facial recognition is performed, ensuring compliance with privacy laws~\cite{gdpr_ai}.
+    \item System processes anonymized vehicle data only (e.g., type, count).
+    \item Ensures public safety by not interfering with emergency signals.
+\end{itemize}
+
+\section{Summary}
+
+This chapter outlined the core engineering decisions made during the design and implementation of the system. Each consideration—from architecture to privacy—was addressed to ensure the system is robust, secure, and scalable for future expansion in smart city infrastructure.

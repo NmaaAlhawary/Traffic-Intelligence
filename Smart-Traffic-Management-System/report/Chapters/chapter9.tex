@@ -1,0 +1,597 @@
+\chapter{How To Use This Template}
+
+Document-preparing WYSIWYG applications like Microsoft Word are general typing tools that are not friendly to the needs of scientific writing. It is difficult to create scientific writing components, such as equations, figures, and citations using such generic applications. Although some tools and plugins can be used with those applications there is an aesthetic issue that can only be mitigated using a typesetting tool, such as \LaTeX. Besides, indexing and referencing are inherently easy to produce which helps the authors to concentrate more on writing than formatting.
+
+Concretely, there are a few good reasons why \LaTeX~should be used for academic writing. 
+\begin{enumerate}
+    \item \LaTeX~allows you to typeset your thesis/project report beautifully. It helps to structure the document, equations, citations, indexing, etc, and produce high-quality output. 
+    \item Editing a \LaTeX~document is easy. A part of the document can be easily moved and rested in the document allowing greater flexibility with the document without disturbing the typesetting. 
+    \item Document reformatting using \LaTeX~is super easy. Changing fonts, margins, citation styles, and rearranging can be done in almost no time. 
+    \item The scientific publishing industry has built a stable infrastructure around \LaTeX. 
+    \item \LaTeX~is free. Besides, the strong presence of a large \LaTeX~community in WWW to help you in producing high-quality documents. 
+\end{enumerate}
+
+If you are new to \LaTeX, you are highly encouraged to read and practice the following instructions carefully before commencing your thesis/project report writing. 
+
+\section{Scenario 1: A Student Doing A Thesis}
+\label{sec:case1}
+A student of the Department of Computer Science and Engineering at the Green University of Bangladesh named \textit{Afsin Fairuz}, Student ID 243014007, is working alone to write her thesis under the supervision of Associate Professor Dr. Md. Mostafizur Rahman. The title of her thesis is ``Blockchain-Based Food Distribution on the Planet Mars.'' \textit{Afsin} has already conducted her research and got her data ready for writing her thesis. She plans to defend the thesis in the Fall of 2028. The Department of Computer Science and Engineering has declared that \textit{Afsin} will defend her thesis in \textbf{Board 3} consisting of Prof. Dr. Md. Saiful Azad (Professor, CSE) as chair, Mr. Shadman Wadith (Lecturer, CSE) as Member, and Mr. Shamsur Rahman (Tech Lead, Tiger IT Ltd) as External Member. The department also declared that the thesis defense date is February 02, 2029. 
+
+\begin{figure}[ht]
+    \centering
+    \tikz{
+      \node[anchor=south west] (image) at (0,0) {\includegraphics[width=0.3\textwidth]{Images/fig0.png}};
+      \draw[GUBRed, line width=1mm] (1.6,1) ellipse (30pt and 10pt);
+    }
+    \caption{Gaining access to the \textit{main.tex} file from the left side panel of Overleaf for doing initial configurations of this template.}
+    \label{fig:main}
+\end{figure}
+
+Considering the scenario above, \textit{Afsin} needs to do the initial configuration of this template. To do so, she has to click on the \textit{main.tex} file as shown in Figure \ref{fig:main}. Once \textit{main.tex} is open, she should do the initial configurations as shown in the following two subsections.
+
+\subsection{Setting Thesis Particulars}
+
+Since \textit{Afsin} is doing a thesis, she should declare it at the beginning. Thus in the template, she uses the \lstinline[language=latex]!\def\ReportType{Thesis\xspace}! primitive and she comments out the other two \lstinline[language=latex]!\def\ReportType{...\xspace}! primitives to make sure the type of her report is only Thesis. Moreover, the following primitives are to be filled according to the requirements. 
+\begin{itemize}
+    \item \lstinline[language=latex]!\def\ReportTitle{...\xspace}!,
+    \item \lstinline[language=latex]!\def\Supervisor{...\xspace}!, 
+    \item \lstinline[language=latex]!\def\SupervisorPosition{...\xspace}!,
+    \item \lstinline[language=latex]!\def\reportSubmissionDate{...}!, and
+    \item \lstinline[language=latex]!\def\reportSubmissionTerm{...}!.
+\end{itemize}
+
+After setting up the thesis particulars, the relevant part of the \textit{main.tex} would look as follows.
+\lstset{language=latex,morekeywords={begin},caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set your report/thesis particulars 
+%-----------------------------------------------------------
+%
+% Use one: Thesis/Project report
+%\def\RoportType{Project report\xspace} 
+\def\RoportType{Thesis\xspace}
+%
+\def\ReportTitle{Blockchain-Based Food Distribution in the
+Planet Mars\xspace}
+%
+\def\Supervisor{Dr. Md. Mostafizur Rahman\xspace} 
+\def\SupervisorPosition{Associate Professor\xspace}
+%
+%\def\reportSubmissionDate{\today}
+\def\reportSubmissionDate{February 02, 2029}
+\def\reportSubmissionTerm{Fall 2028}
+\end{lstlisting}
+
+\subsection{Setting Author's Particulars}
+Based on the description provided in Subsection \ref{sec:case1}, there are no other members/authors in the group except \textit{Afsin}. That means she is the first author of her Thesis. \textit{Afsin} loves her parents, so she dedicates her thesis to her Mother \textit{Mansura Akhter} and Father \textit{Manzurul Haque}. She wants to write the following message on the ``Dedication" page of the thesis.
+\begin{center}
+\parbox{5cm}{
+To my loving mother\\ \textit{
+Mansura Akhter} \\ and father \\ \textit{Manzurul Haque}
+}   
+\end{center}
+So, \textit{Afsin} would configure the following primitives as the requirements.
+\begin{itemize}
+    \item \lstinline[language=latex]!\def\numberOfAuthors{ }!
+    \item \lstinline[language=latex]!\def\firstAuthor{...\xspace}!
+    \item \lstinline[language=latex]!\def\firstAuthorID{...\xspace}!
+    \item \lstinline[language=latex]!\def\firstAuthorDedication{...}!
+\end{itemize}
+
+After inserting the author's particulars, the group members' particular part of the \textit{main.tex} would look as follows.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set your group members' particulars 
+%-----------------------------------------------------------
+%
+\def\numberOfAuthors{1} % write 1, 2, or 3 (depends on group)
+%
+\def\firstAuthor{Afsin Fairuz\xspace} 
+\def\firstAuthorID{243014007\xspace}
+\def\firstAuthorDedication{To my loving mother\\ \textit{
+Mansura Akhter} \\ and father \\ \textit{Manzurul Haque}}
+\end{lstlisting}
+
+Please note that \textit{Afsin} does not have to fill up the remaining authors' information although there is a provision to input more authors' information. She can leave them as it will not create any problem in rendering her document.
+
+Next, \textit{Afsin} has to fill in the information regarding the defense board and its member information. Based on the information given, \textit{Afsin} has to edit the following piece of code accordingly.
+
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set Board members' particulars 
+%-----------------------------------------------------------
+%
+\def\BoardNumber{3} % board to defende
+%
+\def\BoardChair{Prof. Dr. Md Saiful Azad\xspace} 
+\def\BoardChairPosition{Professor, Dept. of CSE\xspace}
+%
+\def\BoardMember{Mr. Shadman Wadith\xspace} 
+\def\BoardMemberPosition{Lecturer, Dept. of CSE\xspace} 
+%
+\def\BoardExternalMember{Mr. Shamsur Rahman\xspace} 
+\def\BoardExternalMemberPosition{Tech Lead\xspace} 
+\def\BoardExternalMemberAffiliation{Tiger IT Ltd\xspace}
+%
+%-----------------------------------------------------------
+\end{lstlisting}
+
+Now \textit{Afsin} is ready to recompile the document. In order to do that, she finds the \includegraphics[width=0.12\textwidth]{Images/fig1.png} button of Overleaf and click on it. Once recompilation is done, she finds that all the necessary changes are made automatically in the following pages.
+\begin{enumerate}
+    \item Front page
+    \item Copyright page
+    \item Declaration page
+    \item Endorsement Certificate page
+    \item Certificate page
+    \item Acknowledgments page
+    \item Dedication page, and
+    \item Cover page
+\end{enumerate}
+
+
+If you are doing a thesis alone, follow \textit{Afsin} to configure the template according to the requirement. After configuration, you will be able to see the dynamically produced skeleton of your thesis too. Try it yourself! If you have done it successfully, Congratulations to you!
+
+\section{Scenario 2: A Group Doing A Project}
+\label{sec:case2}
+Three students of the Department of Computer Science and Engineering at the Green University of Bangladesh formed a group to do a  Project under the supervision of Lecturer \textit{Jargis Ahmed}. Names of the students are \textit{Safwan Sadid}, \textit{Aiyan Faiyaz}, and \textit{Aleena Ramin}, and their Student IDs are 243014008, 243014027 and 243014033 respectively. The group has decided the title of their project is ``Design and Development of a Robot for Tree Plantation on Planet Mars.'' The group members have already designed and implemented their project, and now they are ready to write the project report. Upon approval of their supervisor, they are planning to submit the report by the end of Fall 2028. The Department of Computer Science and Engineering has declared that the group will defend her project in \textbf{Board 3} consisting of Prof. Dr. Md. Saiful Azad (Professor, CSE) as chair, Mr. Shadman Wadith (Lecturer, CSE) as Member, and Mr. Shamsur Rahman (Tech Lead, Tiger IT Ltd) as External Member. The department also declared that the thesis defense date is February 02, 2029.  
+
+The group starts writing their project report doing the initial configuration of this template. To do so, first, they click on the \textit{main.tex} file as shown in Figure \ref{fig:main}. Once \textit{main.tex} is open, they do the initial configurations of the template as shown in the following two subsections. 
+
+\subsection{Setting Report Particulars}
+
+Since the group is doing a  project, they use the \lstinline[language=latex]!\def\ReportType{!
+\lstinline[language=latex]!Project\xspace}! primitive to make sure the type of their report is a  project report. Further, the following primitives are filled accordingly. 
+\begin{itemize}
+    \item \lstinline[language=latex]!\def\ReportTitle{...\xspace}!,
+    \item \lstinline[language=latex]!\def\Supervisor{...\xspace}!, 
+    \item \lstinline[language=latex]!\def\SupervisorPosition{...\xspace}!,
+    \item \lstinline[language=latex]!\def\reportSubmissionDate{...}!, and
+    \item \lstinline[language=latex]!\def\reportSubmissionTerm{...}!.
+\end{itemize}
+
+After configuring the project report particulars, the relevant part of the \textit{main.tex} would look as follows.
+\lstset{language=latex,morekeywords={begin},caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set your report/thesis particulars 
+%-----------------------------------------------------------
+%
+% Use one: Thesis/Project report
+\def\RoportType{Project report\xspace} 
+%\def\RoportType{Thesis\xspace}
+%
+\def\ReportTitle{Design and Development of a Robot for Tree 
+Plantation on Planet Mars\xspace}
+%
+\def\Supervisor{Jargis Ahmed\xspace} 
+\def\SupervisorPosition{Lecturer\xspace}
+%
+%\def\reportSubmissionDate{\today}
+\def\reportSubmissionDate{February 02, 2029}
+\def\reportSubmissionTerm{Fall 2028}
+\end{lstlisting}
+
+\subsection{Setting Authors' Particulars}
+As described in Subsection \ref{sec:case2}, the group consists of three students who are working towards the successful completion of a  project. So, all of them are considered as authors. Based on the contributions made to the project, they came up with an order in the authors' list.
+
+Safwan, Aiyan, and Aleena – all of them decide to dedicate their project report to their favorite persons. Safwan wants to dedicate the work to his parents. The dedication message he wants to write is as follows. 
+\begin{center}
+\parbox{5cm}{
+To my beloved mother\\ \textit{
+Munjifa Hasan} \\ and father \\ \textit{M Shohorab Hossain}
+}   
+\end{center}
+ 
+ Aiyan, on the other hand, loves his grandmother a lot so he decides to dedicate his work to his grandmother. The message goes as follows.
+ \begin{center}
+\parbox{5cm}{
+To my grandmother\\ \textit{
+Mahmuda Begum}
+}   
+\end{center}
+ 
+ Aleena has been influenced a lot by her mentor and her sister. So, she decides to dedicate the work to them. The messages she wants to include in the report are as follows.
+\begin{center}
+\parbox{5cm}{
+I would like to dedicate my work to my mentor\\ \textit{M. Tafazzal Hossain} \\ and my sister \\ \textit{Samara Raniyah}
+}   
+\end{center}
+Accordingly, the team configures the following primitives as the requirements.
+\begin{itemize}
+    \item \lstinline[language=latex]!\def\numberOfAuthors{ }!
+    \item \lstinline[language=latex]!\def\firstAuthor{...\xspace}!
+    \item \lstinline[language=latex]!\def\firstAuthorID{...\xspace}!
+    \item \lstinline[language=latex]!\def\firstAuthorDedication{...}!
+    \item \lstinline[language=latex]!\def\secondAuthor{...\xspace}!
+    \item \lstinline[language=latex]!\def\secondAuthorID{...\xspace}!
+    \item \lstinline[language=latex]!\def\secondAuthorDedication{...}!
+    \item \lstinline[language=latex]!\def\thirdAuthor{...\xspace}!
+    \item \lstinline[language=latex]!\def\thirdAuthorID{...\xspace}!
+    \item \lstinline[language=latex]!\def\thirdAuthorDedication{...}!
+\end{itemize}
+
+After inserting the authors' particulars, the group members' particular part of the \textit{main.tex} would look as follows.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set your group members particulars 
+%-----------------------------------------------------------
+%
+\def\numberOfAuthors{3} % write 1, 2 or 3 (depends on group)
+%
+\def\firstAuthor{Safwan Sadid\xspace} 
+\def\firstAuthorID{243014008\xspace}
+\def\firstAuthorDedication{To my beloved mother\\ \textit{
+Munjifa Hasan} \\ and father \\ \textit{M Shohorab Hossain}}
+%
+\def\secondAuthor{Aiyan Faiyaz\xspace} 
+\def\secondAuthorID{243014027\xspace} 
+\def\secondAuthorDedication{To my grandmother\\
+\textit{Mahmuda Begum}}
+%
+\def\thirdAuthor{Aleena Ramin\xspace} 
+\def\thirdAuthorID{243014033\xspace} 
+\def\thirdAuthorDedication{I would like to dedicate my work to 
+my mentor\\ \textit{M. Tafazzal Hossain} \\ and my sister \\ 
+\textit{Samara Raniyah}}
+\end{lstlisting}
+
+In the end, Board Members' particular part of the \textit{main.tex} has to be filled up which would look as follows.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Set Board members' particulars 
+%-----------------------------------------------------------
+%
+\def\BoardNumber{3} % board to defende
+%
+\def\BoardChair{Prof. Dr. Md Saiful Azad\xspace} 
+\def\BoardChairPosition{Professor, Dept. of CSE\xspace}
+%
+\def\BoardMember{Mr. Shadman Wadith\xspace} 
+\def\BoardMemberPosition{Lecturer, Dept. of CSE\xspace} 
+%
+\def\BoardExternalMember{Mr. Shamsur Rahman\xspace} 
+\def\BoardExternalMemberPosition{Tech Lead\xspace} 
+\def\BoardExternalMemberAffiliation{Tiger IT Ltd\xspace}
+%
+%-----------------------------------------------------------
+\end{lstlisting}
+
+Now the team is ready to recompile the document. To do that, they click on the  \includegraphics[width=0.12\textwidth]{Images/fig1.png} button to render the document. Once recompilation is done, they found the necessary changes according to the above configurations on the following pages.
+\begin{enumerate}
+    \item Frontpage
+    \item Copyright page
+    \item Declaration page
+    \item Endorsement Page
+    \item Certificate page
+    \item Acknowledgments page
+    \item Dedication page, and
+    \item Cover page
+\end{enumerate}
+
+If your team consists of three members and the team is doing a  project then follow the above steps to complete the initial configurations. If you have done it successfully, to all three of you - Kudos!
+
+\begin{figure}[ht]
+    \centering
+    \tikz{
+      \node[anchor=south west] (image) at (0,0) {\includegraphics[width=0.9\textwidth]{Images/fig6.png}};
+      \draw[GUBRed, line width=1mm] (1.9,1.9) ellipse (35pt and 10pt);
+    }
+    \caption{Write an Abstract of your work in the \textit{abstract.tex} file accessible from the left side panel of Overleaf.}
+    \label{fig:abstract}
+\end{figure}
+
+\section{Abstract and Keywords}
+An abstract is a concise summary of an experiment or project written in usually a paragraph of roughly 250 words. An abstract should contain the information in the given order.
+\begin{itemize}
+    \item the purpose of the study/project motivation; 
+    \item the basic design of the study/solving methods; 
+    \item major findings/challenges faced in implementing the project; and, 
+    \item a brief summary and conclusions.
+\end{itemize} 
+In your report, you should write an abstract in the \textit{abstract.tex} file. The location of the \textit{abstract.tex} file is illustrated in Figure \ref{fig:abstract}.
+
+In the same file, there is a provision to include a few relevant keywords for indexing purposes.
+
+
+\section{Adding a New Chapter}
+Now, the template is ready for you to add chapters containing the text that you want to put in your report. This template already contains five chapters which are stored in the \textbf{Chapters} folder. You are free to edit all the chapters according to your needs. Additionally, if you need more chapters to cater to your needs, first, follow the instructions given in Figure \ref{fig:new_chapter}. Then, from the \textbf{Add Files} dialogue box give a file name with \textit{.tex} extension. Finally, click on the \textbf{create} button to confirm your intention. 
+
+\begin{figure}[ht]
+    \centering
+    \tikz{
+      \node[anchor=south west] (image) at (0,0) {\includegraphics[width=0.9\textwidth]{Images/fig2.png}};
+      \draw[GUBRed, line width=1mm] (2.2,2.7) ellipse (30pt and 10pt);
+      \draw[GUBPurple, line width=1mm,-latex'] (8,6) -- (4.7,6) node [fill=black!5,above,pos=0.4,]{1. Click here};
+      \draw[GUBPurple, line width=1mm,-latex'] (8,2.8) -- (3.2,2.8) node [fill=black!5,above,pos=0.23,]{2. Then click here};
+    }
+    \caption{Create a new chapter from the left side panel of Overleaf of this template.}
+    \label{fig:new_chapter}
+\end{figure}
+
+\subsection{Customizing Chapter Title}
+The newly created chapter is to be prepared for use next. To customize the chapter title, you need to use \lstinline[language=latex]!\chapter{}! command. For example, the newly created chapter title is \textit{Literature Review}. In such case, you should use the following command at the beginning of the newly created chapter file.
+
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\chapter{Literature Review}
+\end{lstlisting} 
+
+The above command adds the newly created chapter. Now you are ready to add any content in the the chapter as required. 
+\subsection{Including a Chapter in Your Report}
+
+Upon completing the chapter file creation and customizing the title, you can call it from \textit{main.tex}. The primitive to be used in that case is \lstinline[language=latex]!\include{./Chapters/...}!. Please replace $\ldots$ with the chapter name that you created just a while ago.
+
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+%-----------------------------------------------------------
+% Include Chapters 
+%-----------------------------------------------------------
+ \include{./Chapters/chapter1}
+ \include{./Chapters/chapter2}
+ \include{./Chapters/chapter3}
+ \include{./Chapters/chapter4}
+ \include{./Chapters/chapter5}
+\end{lstlisting} 
+
+Please note that you are free to rearrange the order of the chapters without considering their file name. 
+
+\section{Adding Equations}
+It is almost impossible to write a thesis or a technical report in an engineering discipline without equations. These equations contain mathematical functions, symbols, parameters, numbers, units, or any combination of them. In \LaTeX~adding equations is typeset-based and easy to use. For example typeset \verb|$\frac{a}{b}$| produces $\frac{a}{b}$, a simple typeset \verb|$\bar{x} = \frac{\sum_{i = 1}^n x_i}{n}$| produces an elegant inline equation $\bar{x} = \frac{\sum_{i = 1}^n x_i}{n}$, and a simple and easy looking typeset \verb|$\cos (2\theta) = \cos^2 \theta - \sin^2 \theta$| produces an inline equation $\cos (2\theta) = \cos^2 \theta - \sin^2 \theta$.
+
+
+Numbered equations are used and often required in scientific writing. To produce a numbered equation, you need to use an \lstinline[language=latex]!equation! environment. The \lstinline[language=latex]!equation! environment automatically numbers your equation which can be referred from the document. A simple example of generating a numbered equation using \lstinline[language=latex]!equation! environment is as follows.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\begin{equation} 
+  x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation}
+\end{lstlisting}
+The above set of commands adds the following numbered equation to your document.
+\begin{tcolorbox}
+\begin{equation} 
+  x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation}
+\end{tcolorbox}
+You can also use the \lstinline[language=latex]!\label! and \lstinline[language=latex]!\ref! commands to label and reference equations, respectively. The following equation shows an example of how to use \lstinline[language=latex]!\label! and \lstinline[language=latex]!\ref! commands in context.
+
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\begin{equation} \label{eq:2}
+  E = mc^2
+\end{equation}
+
+The Eq. \ref{eq:2} defines the energy $E$ of a particle in its 
+rest frame as the product of mass $m$ with the speed of light 
+squared $c^2$.
+\end{lstlisting}
+
+The above piece of code produces the following output.
+\begin{tcolorbox}
+\begin{equation} \label{eq:2}
+  E = mc^2
+\end{equation}
+
+The Eq. \ref{eq:2} defines the energy $E$ of a particle in its rest frame as the product of mass $m$ with the speed of light squared $c^2$. 
+\end{tcolorbox}
+
+\section{Adding a Section}
+
+While writing a scientific document, it is necessary and often important to structure the content of the document into fundamental logic units. To achieve this, \LaTeX~ provides a command to generate section headings and number them automatically. The commands to create section headings are simple.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\section{...} 
+\end{lstlisting}
+
+The \lstinline[language=latex]!\section{}! command is numbered and it appears in the table of contents of the document. 
+
+\subsection{Adding a Subsection}
+You can add a subsection like this one using \lstinline[language=latex]!\subsection{}! command and works in a similar manner as \lstinline[language=latex]!\section{}! does.
+
+\subsubsection{Adding a Sub-subsection}
+You can add a subsubsection like this one using \lstinline[language=latex]!\subsubsection{}! command. Sometimes you need to structure your report to a finer level and \lstinline[language=latex]!\subsubsection{}! the command helps you to achieve that intention.
+
+\section{Adding a Figure}
+
+``A picture is worth a thousand words'' --  a picture conveys information more effectively than words.
+A picture has the power of telling a story. sometimes complex and multiple ideas can be depicted using an image that would otherwise be difficult to convey by a verbal description. The images, figures, graphs, and charts published within research articles are often the most important information in the paper. Photos can sum up key findings in a single image.
+
+\begin{figure}[!ht]
+    \centering
+    \tikz{
+      \node[anchor=south west] (image) at (0,0) {\includegraphics[width=0.8\textwidth]{Images/fig3.png}};
+      \draw[GUBRed, line width=1mm] (2.3,0.9) ellipse (30pt and 10pt);
+      \draw[GUBPurple, line width=1mm,-latex'] (7.7,5.2) -- (4.2,5.2) node [fill=black!5,above,pos=0.4,]{1. Click here};
+      \draw[GUBPurple, line width=1mm,-latex'] (7.7,0.9) -- (3.4,0.9) node [fill=black!5,above,pos=0.23,]{2. Then click here};
+    }
+    \caption{Adding a new figure in the Images folder from the left side panel of the Overleaf of this template.}
+    \label{fig:new_figure}
+\end{figure}
+
+There are many important reasons to use images for scientific and academic writing. However, most students do not realize it which results in losing the chance to make writing more eye-catching and interesting. This happens due to a lack of practice and lack of knowledge of academic writing. Additionally, sometimes students use images, graphics, and charts but they don’t know how to include pictures in a research paper correctly with proper citing.
+
+In your report, if you want to add a figure properly then the first and foremost important task is to import the figure in the ``Images'' folder of this project. To do that, please follow the instructions given in Fig. \ref{fig:new_figure}. Then use the \textit{Add Files} dialogue box to complete uploading the image. When the figure is uploaded, you are now ready to use the image in your report.
+
+Then add the figure to the desired location of your report using the following commands (assuming that the image you would like to add is Mars.jpg).
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.40\textwidth]{Images/Mars.jpg}
+    \caption{Picture of the Planet Mars in natural color.}
+    \label{fig:mars}
+\end{figure}
+\end{lstlisting}
+
+In the above code, a figure is added having the caption ``Pictured of the Planet Mars in natural color.''. Additionally, you should add a \lstinline[language=latex]!\label{fig:mars}! to the figure by which you can refer the figure (e.g. \lstinline[language=latex]!\ref{fig:mars}!) from the body of the text. The command \lstinline[language=latex]!\centering! is used to center-align the figure.
+
+You can also use the \lstinline[language=latex]!\label! and \lstinline[language=latex]!\ref! commands to label and reference figures, respectively. The following listing shows an example of how to use \lstinline[language=latex]!\label! and \lstinline[language=latex]!\ref! commands in context.
+
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.40\textwidth]{Images/Einstein.png}
+  \caption{Einstein's official portrait after receiving the 
+  1921 Nobel Prize in Physics.}
+  \label{fig:einstein}
+\end{figure}
+
+In 1920, Albert Einstein became a Foreign Member of the Royal 
+Netherlands Academy of Arts and Sciences. In 1922, he was 
+awarded the 1921 Nobel Prize in Physics "for his services to 
+Theoretical Physics, and especially for his discovery of the 
+law of the photoelectric effect". Figure \ref{fig:einstein} 
+shows his official portrait after receiving the prize. 
+\end{lstlisting}
+
+The above code produces the Figure \ref{fig:einstein} and the text below. Please have a careful look how \lstinline[language=latex]!\lebel{}! is used within \lstinline[language=latex]!figure! environment and how the figure is cited from the text using \lstinline[language=latex]!\ref{}! command.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.40\textwidth]{Images/Einstein.png}
+  \caption{Einstein's official portrait after receiving the 
+  1921 Nobel Prize in Physics.}
+  \label{fig:einstein}
+\end{figure}
+\begin{tcolorbox}
+In 1920, Albert Einstein became a Foreign Member of the Royal Netherlands Academy of Arts and Sciences. In 1922, he was awarded the 1921 Nobel Prize in Physics ``for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect''. Figure \ref{fig:einstein} shows his official portrait after receiving the prize. 
+\end{tcolorbox}
+
+\section{Adding a Table}
+ Tables are an integral part of scientific writing. A table often used to summarize your findings clearly and neatly, and it allows the reader to understand the results and importance of the results. When you plan to include a table in your report, you should think carefully to present your data so that the readers understand it easily. Tables have several elements, including the caption, column titles, and body.
+ \begin{itemize}
+    \item Caption: Tables should have a clear caption with sufficient amount of detail to understand it standalone.
+    \item Column Titles: Column titles are the headline of your data. A good set of column titles allow the reader to understand the table quickly.
+    \item Body: This is the part of the table where data is presented.
+ \end{itemize}
+
+A table can be added in your documents by using a \lstinline[language=latex]!table! environment. The following code of a \lstinline[language=latex]!table! environment produces a table shown in Table \ref{tab:1}.
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+\begin{table}[ht]
+\centering
+\caption{Data collected from four students.}
+\begin{tabular}{l c c c}
+\toprule
+Name    & Weight (lb) & Height (in) & Gender \\ \toprule
+Alice   & 133         & 65          & F      \\ \midrule
+Bob     & 160         & 72          & M      \\ \midrule
+Charlie & 152         & 70          & M      \\ \midrule
+Diana   & 120         & 60          & F      \\ \bottomrule  
+\end{tabular}
+\label{tab:1}
+\end{table}
+\end{lstlisting}
+
+
+
+\begin{table}[ht]
+\centering
+\caption{Data collected from four students.}
+\begin{tabular}{l c c c}
+\toprule
+Name    & Weight (lb) & Height (in) & Gender \\ \toprule
+Alice   & 133         & 65          & F      \\ \midrule
+Bob     & 160         & 72          & M      \\ \midrule
+Charlie & 152         & 70          & M      \\ \midrule
+Diana   & 120         & 60          & F      \\ \bottomrule  
+\end{tabular}
+\label{tab:1}
+\end{table}
+
+
+\section{Citing Articles}
+
+In academic writing, you need to read many scientific articles, reports or even authentic web documents to know the state of the art of your field of research. While preparing your report, you may need to use the information provided in those documents. If you consider doing so, you are allowed to do it giving credits to the original authors via citations. A citation is a reference to the source article of information that you used in your research. Any time you directly quote, paraphrase or summarize the essential elements of others idea in your work, you must cite the source. While directly quoting sentences from a published work, it should be surrounded by quotations marks with proper citation. Paraphrasing and summarizing or the published work are also allowed but you should cite the source properly. To cite an article, you may copy the BibTeX for the corresponding article from Google Scholar or any digital library. Please follow the steps provided in Figure \ref{fig:bibtex} to get the BibTeX of an article that you are looking for using Google Scholar.
+
+\begin{figure}[ht]
+  \centering
+  \tikz{
+      \node[anchor=south west] (image) at (0,0) {\includegraphics[width=0.9\textwidth]{Images/fig4.png}};
+      \draw[GUBPurple, line width=1mm,-latex'] (4,6.5) -- (2,7.5) node [fill=black!5,above,pos=-0.2,]{1. https://scholar.google.com/};
+      \draw[GUBPurple, line width=1mm,-latex'] (11,6.5) -- (9,7.5) node [fill=black!5,above,pos=-0.2,]{2. Search the article };
+      \draw[GUBRed, line width=1mm] (4.2,4.6) ellipse (10pt and 10pt);
+      \draw[GUBPurple, line width=1mm,-latex'] (8.4,4.6) -- (4.4,4.6) node [fill=black!5,above,pos=0.23,]{3. Click here};
+      \draw[GUBPurple, line width=1mm,-latex'] (12.2,1.5) -- (8.2,1.5) node [fill=black!5,above,pos=0.23,]{4. Then click here};
+    }
+  \caption{BibTeX is readily available in Google Scholar.}
+  \label{fig:bibtex}
+\end{figure}
+
+
+A typical BibTeX of an article looks as follows:
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+@article{krizhevsky2012imagenet,
+  title={Imagenet classification with deep convolutional 
+  neural networks},
+  author={Krizhevsky, Alex and Sutskever, Ilya and Hinton, 
+  Geoffrey E},
+  journal={Advances in neural information processing systems},
+  volume={25},
+  pages={1097--1105},
+  year={2012}
+}    
+\end{lstlisting}
+
+Get a required BibTeX and paste that in the \textit{references.bib} file of this template. Please refer to Figure \ref{fig:ref} to locate \textit{references.bib} file. You should take a note of the key to use in your report. In the above example \lstinline[language=latex]!krizhevsky2012imagenet! is the key.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.90\textwidth]{Images/fig5.png}
+  \caption{Adding a new BibTeX entry in reference.bib from the left side panel of Overleaf of this template.}
+  \label{fig:ref}
+\end{figure}
+
+
+Next, go to the desired location in your report to insert the reference. To cite this article, please write a command as follows: 
+\lstset{language=latex, caption={}}
+\begin{lstlisting}
+Convolutional Neural Network revived with the success of 
+\cite{krizhevsky2012imagenet} in ImageNet competition.
+\end{lstlisting}
+
+Next time you recompile, reference will be created as follows: 
+\begin{tcolorbox}
+Convolutional Neural Network revived with the success of \cite{krizhevsky2012imagenet} in ImageNet competition.
+\end{tcolorbox}
+
+
+Now, please go to the Bibliography section (you may jump to there by clicking on the number in green color as well) of your report where you will find bibliographic detail of your referred article.
+
+
+% \subsection{Citing a Web Document}
+% If you need to cite an authentic source of web information then you can fill up a BibTeX entry as follows.
+% \lstset{language=latex, caption={}}
+% \begin{lstlisting}
+% @misc{seeta2011what,
+%  title = {What is a liberal arts degree?},
+%  author = {Seeta Bhardwa},
+%  publisher = {Times Higher Education},
+%  howpublished = {https://www.timeshighereducation.com/student/
+%  advice/what-liberal-arts-degree},
+%  year = {2020}
+% }
+% \end{lstlisting}
+% In the following, the above BibTeX entry is cited in context. 
+% \lstset{language=latex, caption={}}
+% \begin{lstlisting}
+% ``A liberal arts degree gives students the opportunity to 
+% study many different areas of interest and to consider various 
+% career options" \cite{seeta2011what}.
+% \end{lstlisting}
+
+% The above code produces the following output. You can check the BibTeX entry in the Bibliography section.
+% \begin{tcolorbox}
+% ``A liberal arts degree gives students the opportunity to study many different areas of interest and to consider various career options" \cite{seeta2011what}.
+% \end{tcolorbox}
+
+
+
+\section{Summary}
+\LaTeX~allows you to produce your document with a great level of flexibility without compromising the quality of the output. This chapter has described how to use this template with two scenarios. However, this template is not restricted to use only for those two cases. The scenarios provided here only for illustration purpose and for better understanding of the students. You are allowed to use it in any combination of a group and the report type. For any support please send an email to muhammad.hasan@cse.green.edu.bd
+

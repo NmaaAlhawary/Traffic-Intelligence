@@ -1,0 +1,124 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gubcse400}[2024/01/01 project/thesis package]
+
+\RequirePackage{microtype}
+\RequirePackage{booktabs}
+\RequirePackage{mathpazo}
+\RequirePackage{textcase}
+\RequirePackage{ifthen}
+\RequirePackage{amssymb}
+\RequirePackage{graphicx}
+\RequirePackage{titlesec}
+%\RequirePackage{natbib}
+\RequirePackage[pages=some,placement=top]{background}
+
+\def\squarebg{\backgroundsetup{scale=0.5,opacity=0.3,angle=0,hshift=10.0cm,vshift=-28.0cm,
+    contents={\includegraphics[height=\paperheight]{Images/border.png}}}
+    \BgThispage
+}
+
+\def\jamdanibg{\backgroundsetup{scale=1,opacity=0.3,angle=0,hshift=-10.5cm,
+    contents={\includegraphics[height=\paperheight]{Images/jamdani_pattern_bw.png}}}
+    \BgThispage
+}
+
+\RequirePackage{multicol}
+\RequirePackage{xspace}
+\RequirePackage[]{xcolor}
+\RequirePackage{tcolorbox}
+
+\definecolor{GUBBlue}{RGB}{0,27,84}   
+\definecolor{GUBRed}{RGB}{186,0.23,49} 
+\definecolor{GUBGreen}{RGB}{53,104,89}
+\definecolor{GUBPurple}{RGB}{139, 0, 139}
+\definecolor{YellowOrange}{rgb}{1.0, 0.22, 0.0}
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes.geometric}
+\RequirePackage{listings}
+\usepackage{newverbs}
+\newverbcommand{\cverb}{\color{blue}}{}
+\RequirePackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=GUBRed,
+    urlcolor=GUBBlue,
+    linktoc=all
+}
+
+\tcbset{colback=GUBBlue!10,colframe=black, boxrule=0pt}
+
+% set the default code style
+\lstdefinelanguage{latex} {morekeywords={def,begin,centering,end,xspace,hline,caption,label,textit,@article,@misc,cite,ref,chapter,section,subsection,subsubsection,include,toprule,midrule,bottomrule},morecomment=[l]{\%},}
+\lstset{
+    frame=single, % draw a frame at the top and bottom of the code block
+    backgroundcolor=\color{GUBBlue!10}, 
+    tabsize=4, % tab space width
+    showstringspaces=true, % don't mark spaces in strings
+    numbers=left, % display line numbers on the left
+    commentstyle=\color{GUBRed},
+    stringstyle=\color{GUBGreen},
+    basicstyle=\small\ttfamily, % basic font setting
+    emph={tabular,table,equation,figure,includegraphics,width,textwidth,title,author,journal,volume,pages,year,editor,url,howpublished,publisher},
+    emphstyle={\color{YellowOrange}},
+    keywordstyle=\color{blue},
+}
+
+\setlength{\topmargin}{0.0in}
+\setlength{\oddsidemargin}{0.33in}
+\setlength{\evensidemargin}{-0.08in}
+\setlength{\textheight}{8.5in}
+\setlength{\textwidth}{6.0in}
+
+
+%-----------------------------------------------------------------
+\newcommand{\frontmatter}[1]{%
+  \ifthenelse{\equal{#1}{1}}
+    {\include{./FrontMatter/titlePage}
+    \include{./FrontMatter/copyright}
+    \include{./FrontMatter/declaration}
+    \include{./FrontMatter/endorsement}
+    \include{./FrontMatter/certificate}
+    \include{./FrontMatter/acknowledgements}
+    \include{./FrontMatter/dedication}
+    \include{./abstract}}
+    {\ifthenelse{\equal{#1}{2}}
+      {\include{./FrontMatter/titlePage2}
+      \include{./FrontMatter/copyright2}
+      \include{./FrontMatter/declaration2}
+      \include{./FrontMatter/endorsement2}
+      \include{./FrontMatter/certificate2}
+      \include{./FrontMatter/acknowledgements2}
+      \include{./FrontMatter/dedication2}
+      \include{./abstract}}
+      {\include{./FrontMatter/titlePage3}
+      \include{./FrontMatter/copyright3}
+      \include{./FrontMatter/declaration3}
+      \include{./FrontMatter/endorsement3}
+      \include{./FrontMatter/certificate3}
+      \include{./FrontMatter/acknowledgements3}
+      \include{./FrontMatter/dedication3}
+      \include{./abstract}}
+    }
+  }
+
+\newcommand{\coverpage}[1]{%
+  \ifthenelse{\equal{#1}{1}} {
+	\include{./CoverPage/cover}}
+	{\ifthenelse{\equal{#1}{2}} 
+	  {\include{./CoverPage/cover2}}
+	  {\include{./CoverPage/cover3}}
+	}
+  }
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries\color{GUBGreen}}{\thechapter.\hsp{\includegraphics[scale=0.2]{Images/jd.png}}\hsp}{0pt}{\Huge\bfseries\color{GUBGreen}}
+\titleformat*{\section}{\Large\bfseries\color{GUBGreen}}
+\titleformat*{\subsection}{\large\bfseries\color{black!60}}
+\titleformat*{\subsubsection}{\bfseries\color{black!50}}
+\renewcommand\bibname{Reference}
+%-----------------------------------------------------------------
+\def\Department{Computer Science and Engineering\xspace}
+\def\University{Green University of Bangladesh\xspace}
+\def\Degree{Bachelor of Science in Computer Science and Engineering\xspace}

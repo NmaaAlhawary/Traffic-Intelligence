@@ -1,0 +1,45 @@
+{
+    "configurations": [
+        {
+            "type": "gradle",
+            "name": "Dashboard (Compose - Desktop)",
+            "tasks": ["desktopRun"],
+            "args": ["-DmainClass=com.gub.app.MainKt", "--quiet", "-p", "$PROJECT_DIR$/composeApp"],
+            "initScripts": {
+                "flmapper": "ext.mapPath = { path -> path }"
+            },
+            "workingDir": "$PROJECT_DIR$"
+        },
+        {
+            "type": "gradle",
+            "name": "Ktor (Kotlin - Server)",
+            "tasks": ["run"],
+            "args": ["-DmainClass=com.gub.application.ApplicationKt", "--quiet", "-p", "$PROJECT_DIR$/server"],
+            "workingDir": "$PROJECT_DIR$"
+        },
+        {
+            "type": "command",
+            "name": "Run Vehicle Detection (Python)",
+            "program": "python3",
+            "args": [
+                "$PROJECT_DIR$/detection/src/main.py"
+            ],
+            "workingDir": "$PROJECT_DIR$"
+        },
+        {
+          "type": "command",
+          "name": "Compile LaTeX (macOS)",
+          "program": "/usr/local/texlive/2025/bin/universal-darwin/latexmk",
+          "args": [
+            "-synctex=1",
+            "-interaction=nonstopmode",
+            "-file-line-error",
+            "-pdf",
+            "-outdir=.",
+            "main.tex"
+          ],
+          "workingDir": "$PROJECT_DIR$/report"
+        }
+    ]
+}
+

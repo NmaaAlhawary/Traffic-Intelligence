@@ -1,0 +1,30 @@
+\setlength{\parskip}{1em}    % Adds space between paragraphs
+\setlength{\parindent}{0pt}  % Removes default indentation
+
+\thispagestyle{plain}
+\begin{center}
+    \Large \textbf{\textcolor{GUBGreen}{ABSTRACT}}
+\end{center}
+\vspace{3\baselineskip}
+\noindent
+%----------------------------------------------------------
+Urban traffic congestion remains a pressing issue in rapidly growing cities, leading to delays, increased fuel consumption, and environmental concerns. Traditional traffic control systems, based on fixed-timer signals, lack the flexibility to respond to real-time conditions. This project presents an AI-Based Traffic Management System that utilizes real-time data and machine learning to optimize signal control and improve traffic flow at intersections.
+
+
+The system uses YOLOv8, an advanced object detection model, via ONNX Runtime to identify and count vehicles from four directional approaches at an intersection. Additional contextual data—such as weather, time, calendar events, and current signal states—are collected and sent to a Kotlin-based backend powered by Ktor. A PostgreSQL database stores both real-time and historical data to support learning and future improvements. A desktop dashboard built with Kotlin Compose allows administrators to monitor traffic in real-time and intervene manually if needed.
+
+
+By analyzing traffic density and historical trends, the AI dynamically adjusts signal durations to prioritize heavily congested directions, aiming to reduce overall waiting time and congestion. Over time, the system learns from patterns and improves its predictions.
+
+
+In conclusion, this AI-powered solution offers a flexible and intelligent alternative to static traffic light systems. Its modular and scalable design makes it suitable for high-density intersections and future smart city integrations. The system enhances urban mobility while contributing to reduced emissions and more efficient road use.
+
+
+%----------------------------------------------------------
+\vspace{\baselineskip}
+\noindent
+%----------------------------------------------------------
+% Write a few relevant keywords for indexing the document
+\textbf{Keywords}: Traffic Management, YOLOv8, Computer Vision, Kotlin, Ktor, Compose
+
+%----------------------------------------------------------
