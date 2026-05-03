@@ -1,0 +1,260 @@
+{
+  "intersection_id": "WADI_SAQRA_01",
+  "name": "Wadi Saqra Intersection",
+  "city": "Amman",
+  "country": "Jordan",
+  "coordinates": {
+    "lat": 31.9739,
+    "lon": 35.8894
+  },
+  "description": "Major 4-way signalised intersection on Wadi Saqra Street near 3rd Circle, West Amman.",
+  "camera": {
+    "id": "CAM-WS-01",
+    "location": "NE corner pole, 6 m height",
+    "field_of_view_deg": 95,
+    "frame_size": "1920x1080",
+    "fps_target": 10,
+    "codec": "H.264",
+    "stream_type": "RTSP (simulated via HTTP MJPEG for sandbox)"
+  },
+  "approaches": [
+    {
+      "id": "North",
+      "street": "Wadi Saqra St (northbound exit)",
+      "lanes": 6,
+      "stop_line_px": {
+        "x1": 320,
+        "y1": 580,
+        "x2": 760,
+        "y2": 582
+      },
+      "queue_zone": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1280,
+        "y2": 250
+      }
+    },
+    {
+      "id": "South",
+      "street": "Wadi Saqra St (southbound exit)",
+      "lanes": 6,
+      "stop_line_px": {
+        "x1": 520,
+        "y1": 140,
+        "x2": 960,
+        "y2": 142
+      },
+      "queue_zone": {
+        "x1": 0,
+        "y1": 470,
+        "x2": 1280,
+        "y2": 720
+      }
+    },
+    {
+      "id": "East",
+      "street": "3rd Circle approach",
+      "lanes": 5,
+      "stop_line_px": {
+        "x1": 980,
+        "y1": 200,
+        "x2": 982,
+        "y2": 520
+      },
+      "queue_zone": {
+        "x1": 900,
+        "y1": 0,
+        "x2": 1280,
+        "y2": 720
+      }
+    },
+    {
+      "id": "West",
+      "street": "Rainbow St / University approach",
+      "lanes": 5,
+      "stop_line_px": {
+        "x1": 298,
+        "y1": 200,
+        "x2": 300,
+        "y2": 520
+      },
+      "queue_zone": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 380,
+        "y2": 720
+      }
+    }
+  ],
+  "detectors": [
+    {
+      "id": "DET-N01",
+      "approach": "North",
+      "lane": 1,
+      "movement": "left_only"
+    },
+    {
+      "id": "DET-N02",
+      "approach": "North",
+      "lane": 2,
+      "movement": "left_straight"
+    },
+    {
+      "id": "DET-N03",
+      "approach": "North",
+      "lane": 3,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-N04",
+      "approach": "North",
+      "lane": 4,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-N05",
+      "approach": "North",
+      "lane": 5,
+      "movement": "straight_right"
+    },
+    {
+      "id": "DET-N06",
+      "approach": "North",
+      "lane": 6,
+      "movement": "right_only"
+    },
+    {
+      "id": "DET-S01",
+      "approach": "South",
+      "lane": 1,
+      "movement": "left_only"
+    },
+    {
+      "id": "DET-S02",
+      "approach": "South",
+      "lane": 2,
+      "movement": "left_straight"
+    },
+    {
+      "id": "DET-S03",
+      "approach": "South",
+      "lane": 3,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-S04",
+      "approach": "South",
+      "lane": 4,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-S05",
+      "approach": "South",
+      "lane": 5,
+      "movement": "straight_right"
+    },
+    {
+      "id": "DET-S06",
+      "approach": "South",
+      "lane": 6,
+      "movement": "right_only"
+    },
+    {
+      "id": "DET-E01",
+      "approach": "East",
+      "lane": 1,
+      "movement": "left_straight"
+    },
+    {
+      "id": "DET-E02",
+      "approach": "East",
+      "lane": 2,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-E03",
+      "approach": "East",
+      "lane": 3,
+      "movement": "straight_right"
+    },
+    {
+      "id": "DET-E04",
+      "approach": "East",
+      "lane": 4,
+      "movement": "right_only"
+    },
+    {
+      "id": "DET-E05",
+      "approach": "East",
+      "lane": 5,
+      "movement": "u_turn"
+    },
+    {
+      "id": "DET-W01",
+      "approach": "West",
+      "lane": 1,
+      "movement": "left_straight"
+    },
+    {
+      "id": "DET-W02",
+      "approach": "West",
+      "lane": 2,
+      "movement": "straight"
+    },
+    {
+      "id": "DET-W03",
+      "approach": "West",
+      "lane": 3,
+      "movement": "straight_right"
+    },
+    {
+      "id": "DET-W04",
+      "approach": "West",
+      "lane": 4,
+      "movement": "right_only"
+    },
+    {
+      "id": "DET-W05",
+      "approach": "West",
+      "lane": 5,
+      "movement": "u_turn"
+    }
+  ],
+  "signal_phases": [
+    {
+      "phase_number": 1,
+      "green_s": 55,
+      "yellow_s": 5,
+      "all_red_s": 3,
+      "description": "N-S straight+right"
+    },
+    {
+      "phase_number": 2,
+      "green_s": 25,
+      "yellow_s": 4,
+      "all_red_s": 3,
+      "description": "N-S left turns"
+    },
+    {
+      "phase_number": 3,
+      "green_s": 40,
+      "yellow_s": 5,
+      "all_red_s": 3,
+      "description": "E-W straight+right"
+    },
+    {
+      "phase_number": 4,
+      "green_s": 20,
+      "yellow_s": 4,
+      "all_red_s": 3,
+      "description": "E-W left turns + U-turns"
+    }
+  ],
+  "monitoring_zones": {
+    "queue_spillback_threshold_vehicles": 4,
+    "stalled_vehicle_threshold_s": 12,
+    "congestion_speed_threshold_kmh": 15
+  },
+  "coordinate_system": "pixel coordinates on 1280\u00d7720 processed frame"
+}

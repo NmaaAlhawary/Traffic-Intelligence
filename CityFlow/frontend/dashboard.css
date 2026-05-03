@@ -654,7 +654,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 .cam-dash-row {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 5px;
 }
 .cam-dash-row span {
@@ -670,6 +670,33 @@ input[type=range]::-webkit-slider-thumb {
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
+}
+.cam-grid .junction-cam.is-incident-demo {
+  box-shadow: inset 0 0 0 2px rgba(248, 113, 113, .9);
+}
+.cam-grid .junction-cam.is-incident-demo .cam-yolo-badge {
+  border-color: rgba(248, 113, 113, .72);
+  color: #ffe1e1;
+}
+.cam-grid .junction-cam.is-incident-demo .cam-yolo-badge::after {
+  content: "ACCIDENT DEMO";
+  margin-left: 7px;
+  color: var(--red);
+}
+.cam-dash-col.is-incident-demo {
+  background: rgba(248,113,113,.08);
+  box-shadow: inset 0 0 0 1px rgba(248,113,113,.24);
+}
+.cam-dash-col.is-incident-demo .cam-dash-label::after {
+  content: "ACCIDENT DEMO";
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(248,113,113,.14);
+  border: 1px solid rgba(248,113,113,.32);
+  color: var(--red);
+  font-size: 8px;
+  letter-spacing: .06em;
 }
 @media (max-width: 800px) {
   .cam-dashboard-stats {
@@ -1232,6 +1259,25 @@ tbody tr:hover td { background: rgba(255,255,255,.05); }
   border-right: 1px solid var(--border);
 }
 .smart-cam-tile:last-child { border-right: none; }
+.smart-cam-tile.is-incident-demo {
+  box-shadow: inset 0 0 0 2px rgba(248,113,113,.88);
+}
+.smart-cam-tile.is-incident-demo::after {
+  content: "ACCIDENT DEMO";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 4;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(8,12,18,.84);
+  border: 1px solid rgba(248,113,113,.46);
+  color: var(--red);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
 .smart-cam-img {
   width: 100%;
   height: 100%;
@@ -1287,7 +1333,7 @@ tbody tr:hover td { background: rgba(255,255,255,.05); }
 }
 .smart-cam-stat-row {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
 }
 .smart-cam-stat-row span {

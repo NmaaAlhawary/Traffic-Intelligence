@@ -33,17 +33,17 @@ class Config:
     
     # Model settings
     MODEL_PATHS = [
-        MODEL_DIR / "yolov8n.pt",
+        MODEL_DIR / "yolov8m.pt",
         MODEL_DIR / "yolov8s.pt",
-        MODEL_DIR / "yolov8m.pt"
+        MODEL_DIR / "yolov8n.pt"
     ]
-    VEHICLE_CLASSES = ["car", "truck", "bus", "motorcycle", "bicycle"]
+    VEHICLE_CLASSES = ["person", "bicycle", "car", "truck", "bus", "motorcycle", "traffic light", "stop sign"]
     
     # Detection parameters
     INPUT_SIZE = 640
-    CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE", 0.35))
+    CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE", 0.18))
     IOU_THRESHOLD = 0.45
-    MAX_DETECTIONS = 200
+    MAX_DETECTIONS = 300
     
     # Performance settings
     MPS_MEMORY_FRACTION = 0.8

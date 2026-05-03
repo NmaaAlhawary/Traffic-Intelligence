@@ -129,11 +129,11 @@
       <div class="panel map-panel">
         <div class="panel-head">
           <div class="panel-head-left">
-            <div class="panel-eyebrow">CAM-01 NORTH · sense05.mov</div>
+            <div class="panel-eyebrow">CAM-02 SOUTH · sense02.mov</div>
             <div class="panel-title">CCTV Live Feed — Full View</div>
           </div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <span class="pill pill-green">sense05.mov</span>
+            <span class="pill pill-green">sense02.mov</span>
             <span class="pill pill-blue">1280×720</span>
             <span class="pill pill-blue">H.264 · 10 FPS</span>
           </div>
@@ -143,7 +143,7 @@
           <video id="cctv-video" class="is-hidden" muted autoplay loop playsinline preload="auto"></video>
           <canvas id="cctv-overlay-canvas" class="cctv-overlay-canvas"></canvas>
           <div class="cctv-top-badge">
-            <span class="cctv-dot"></span>LIVE · INT-001 · sense05 · YOLO
+            <span class="cctv-dot"></span>LIVE · INT-001 · sense02 · YOLO
           </div>
           <div class="cctv-overlay">
             <span id="cctv-status-anchor"></span>
@@ -204,7 +204,7 @@
         <div class="panel-head">
           <div class="panel-head-left">
             <div class="panel-eyebrow">Multi-Camera · 4 Live Feeds</div>
-            <div class="panel-title">Junction Camera Grid</div>
+            <div class="panel-title">Junction Camera Grid · High YOLO</div>
           </div>
           <span class="pill pill-green">Live</span>
         </div>
@@ -212,19 +212,19 @@
         <div class="cam-dashboard-stats">
           <div class="cam-dash-col" id="dash-north">
             <div class="cam-dash-label"><span class="cam-live-dot"></span>CAM-01 · North</div>
-            <div class="cam-dash-row" id="dash-stats-north"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="cam-dash-row" id="dash-stats-north"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="cam-dash-col" id="dash-south">
             <div class="cam-dash-label"><span class="cam-live-dot"></span>CAM-02 · South</div>
-            <div class="cam-dash-row" id="dash-stats-south"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="cam-dash-row" id="dash-stats-south"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="cam-dash-col" id="dash-east">
             <div class="cam-dash-label"><span class="cam-live-dot"></span>CAM-03 · East</div>
-            <div class="cam-dash-row" id="dash-stats-east"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="cam-dash-row" id="dash-stats-east"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="cam-dash-col" id="dash-west">
             <div class="cam-dash-label"><span class="cam-live-dot"></span>CAM-04 · West</div>
-            <div class="cam-dash-row" id="dash-stats-west"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="cam-dash-row" id="dash-stats-west"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
         </div>
         <div class="cam-grid">
@@ -343,8 +343,7 @@
         <span class="snav-icon">◈</span>Analytics
       </button>
       <button class="smart-nav-item snav-phase2" data-smart-view="phase2">
-        <span class="snav-icon">⬟</span>Phase 2 Build
-        <span class="snav-badge">NEW</span>
+        <span class="snav-icon">⬟</span>Traffic Forecasting
       </button>
       <button class="smart-nav-item" data-smart-view="settings">
         <span class="snav-icon">⚙</span>Settings
@@ -508,7 +507,7 @@
       <article class="smart-card" style="padding:0;overflow:hidden">
         <div class="smart-card-head" style="padding:16px 20px 14px;border-bottom:1px solid var(--border)">
           <div>
-            <div class="smart-card-eyebrow">YOLO v8 · Real-time · 4 streams</div>
+            <div class="smart-card-eyebrow">Real-time · 4 streams</div>
             <div class="smart-card-title">Live Camera Detection Feed</div>
           </div>
           <span class="smart-state-pill">● Live</span>
@@ -535,19 +534,19 @@
         <div class="smart-cam-stats-strip">
           <div class="smart-cam-stat-col">
             <div class="smart-cam-stat-head">CAM-01 · North</div>
-            <div class="smart-cam-stat-row" id="smart-det-north"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="smart-cam-stat-row" id="smart-det-north"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="smart-cam-stat-col">
             <div class="smart-cam-stat-head">CAM-02 · South</div>
-            <div class="smart-cam-stat-row" id="smart-det-south"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="smart-cam-stat-row" id="smart-det-south"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="smart-cam-stat-col">
             <div class="smart-cam-stat-head">CAM-03 · East</div>
-            <div class="smart-cam-stat-row" id="smart-det-east"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="smart-cam-stat-row" id="smart-det-east"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
           <div class="smart-cam-stat-col">
             <div class="smart-cam-stat-head">CAM-04 · West</div>
-            <div class="smart-cam-stat-row" id="smart-det-west"><span>Total —</span><span>Cars —</span><span>Bus —</span><span>Truck —</span></div>
+            <div class="smart-cam-stat-row" id="smart-det-west"><span>Total —</span><span>Cars —</span><span>People —</span><span>Bikes —</span><span>Bus —</span><span>Truck —</span></div>
           </div>
         </div>
       </article>

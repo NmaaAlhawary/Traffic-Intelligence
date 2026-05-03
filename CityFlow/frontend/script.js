@@ -175,7 +175,7 @@ let cctvDetectionState = {
     fps: 10,
     sourceWidth: 1280,
     sourceHeight: 720,
-    sourceName: "sense05.mov",
+    sourceName: "sense02.mov",
     loaded: false
 };
 let mapTrafficChart = null;
@@ -242,23 +242,31 @@ window.addEventListener("incident-health", function(event) {
 const GOOGLE_MAP_URL = "https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d1279.8671332617787!2d35.88637445138584!3d31.96695723296919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x151ca05b4ebccd5d%3A0x726d6db1e88866ef!2sWadi%20Saqra%20Int.%2C%20Amman!3m2!1d31.9666926!2d35.8870141!4m5!1s0x151ca05b4ebccd5d%3A0x726d6db1e88866ef!2sWadi%20Saqra%20Int.%2C%20Amman!3m2!1d31.9666926!2d35.8870141!5e1!3m2!1sen!2sjo!4v1776713852283!5m2!1sen!2sjo";
 const DETECTION_COLORS = {
     0: "#f87171",
-    1: "#34d399",
+    1: "#fbbf24",
     2: "#3ecfff",
-    3: "#a78bfa",
+    3: "#ffb52e",
     4: "#f59e0b",
     5: "#22d97a",
     6: "#f97316",
-    7: "#fbbf24"
+    7: "#f56e5f",
+    9: "#a78bfa",
+    10: "#fb923c",
+    11: "#f43f5e",
+    12: "#94a3b8"
 };
 const DETECTION_LABELS = {
     0: "Person",
     1: "Bicycle",
     2: "Car",
-    3: "Motorbike",
+    3: "Motorcycle",
     4: "Van",
     5: "Bus",
     6: "Train",
-    7: "Truck"
+    7: "Truck",
+    9: "Traffic light",
+    10: "Fire hydrant",
+    11: "Stop sign",
+    12: "Parking meter"
 };
 const JUNCTION_CAM_CONFIG = {
     north: { port: "8011", source: "sense01.mov", cameraId: "CAM-01 NORTH", fallbackVideo: "sense01.mov", annotationSource: "sense01.mov" },
@@ -517,11 +525,27 @@ async function loadJunctionDetections(cam) {
     return false;
 }
 
+function renderDetectionCountCells(counts) {
+    var c = counts || {};
+    var bikes = (Number(c.bicycle) || 0) + (Number(c.motorcycle) || 0);
+    return [
+        "<span>Total " + (Number(c.total) || 0) + "</span>",
+        "<span>Cars " + (Number(c.car) || 0) + "</span>",
+        "<span>People " + (Number(c.person) || 0) + "</span>",
+        "<span>Bikes " + bikes + "</span>",
+        "<span>Bus " + (Number(c.bus) || 0) + "</span>",
+        "<span>Truck " + (Number(c.truck) || 0) + "</span>"
+    ].join("");
+}
+
 function updateJunctionFrameStats(cam, items) {
-    var counts = { total: 0, car: 0, bus: 0, truck: 0 };
+    var counts = { total: 0, person: 0, bicycle: 0, car: 0, motorcycle: 0, bus: 0, truck: 0 };
     (items || []).forEach(function(item) {
         counts.total += 1;
+        if (item.category_id === 0) counts.person += 1;
+        if (item.category_id === 1) counts.bicycle += 1;
         if (item.category_id === 2) counts.car += 1;
+        if (item.category_id === 3) counts.motorcycle += 1;
         if (item.category_id === 5) counts.bus += 1;
         if (item.category_id === 7) counts.truck += 1;
     });
@@ -530,22 +554,12 @@ function updateJunctionFrameStats(cam, items) {
         return item.dataset.camStats === cam;
     });
     if (statNode) {
-        statNode.innerHTML = [
-            "<span>Total " + counts.total + "</span>",
-            "<span>Cars " + counts.car + "</span>",
-            "<span>Bus " + counts.bus + "</span>",
-            "<span>Truck " + counts.truck + "</span>"
-        ].join("");
+        statNode.innerHTML = renderDetectionCountCells(counts);
     }
 
     var dashRow = document.getElementById("dash-stats-" + cam);
     if (dashRow && junctionStatsDisabled.has(cam)) {
-        dashRow.innerHTML = [
-            "<span>Total " + counts.total + "</span>",
-            "<span>Cars " + counts.car + "</span>",
-            "<span>Bus " + counts.bus + "</span>",
-            "<span>Truck " + counts.truck + "</span>"
-        ].join("");
+        dashRow.innerHTML = renderDetectionCountCells(counts);
     }
 }
 
@@ -596,25 +610,12 @@ function updateJunctionStatsCard(cam, payload) {
     // 1. Update the camera-grid dashboard strip (main page)
     var dashRow = document.getElementById("dash-stats-" + cam);
     if (dashRow && payload && payload.counts) {
-        var counts = payload.counts;
-        var cells = [
-            "<span>Total " + (counts.total ?? 0) + "</span>",
-            "<span>Cars " + (counts.car ?? 0) + "</span>",
-            "<span>Bus " + (counts.bus ?? 0) + "</span>",
-            "<span>Truck " + (counts.truck ?? 0) + "</span>"
-        ].join("");
-        dashRow.innerHTML = cells;
+        dashRow.innerHTML = renderDetectionCountCells(payload.counts);
     }
     // 2. Mirror into the Smart Traffic Dashboard monitoring view
     var smartRow = document.getElementById("smart-det-" + cam);
     if (smartRow && payload && payload.counts) {
-        var c = payload.counts;
-        smartRow.innerHTML = [
-            "<span>Total " + (c.total ?? 0) + "</span>",
-            "<span>Cars " + (c.car ?? 0) + "</span>",
-            "<span>Bus " + (c.bus ?? 0) + "</span>",
-            "<span>Truck " + (c.truck ?? 0) + "</span>"
-        ].join("");
+        smartRow.innerHTML = renderDetectionCountCells(payload.counts);
         // Also update aggregate smart-monitor-vehicles
         var totalAll = ["north","south","east","west"].reduce(function(sum, k) {
             var el = document.getElementById("smart-det-" + k);
@@ -626,6 +627,14 @@ function updateJunctionStatsCard(cam, payload) {
         }, 0);
         if (smartMetricRefs.monitorVehicles) smartMetricRefs.monitorVehicles.textContent = totalAll.toLocaleString("en-GB");
     }
+    var demoActive = !!(payload && payload.demo_accident_active);
+    var mediaNode = getJunctionMediaNode(cam);
+    var tileNode = mediaNode && mediaNode.closest(".junction-cam");
+    if (tileNode) tileNode.classList.toggle("is-incident-demo", demoActive);
+    var dashCol = document.getElementById("dash-" + cam);
+    if (dashCol) dashCol.classList.toggle("is-incident-demo", demoActive);
+    var smartTile = document.querySelector('[data-smart-cam="' + cam + '"]');
+    if (smartTile) smartTile.classList.toggle("is-incident-demo", demoActive);
     // 3. Mirror stream src into smart dashboard camera tiles
     var smartImg = document.getElementById("smart-cam-img-" + cam);
     var baseUrl = buildJunctionBaseUrl(cam);
@@ -640,12 +649,7 @@ function updateJunctionStatsCard(cam, payload) {
         return;
     }
     var counts = payload.counts;
-    node.innerHTML = [
-        "<span>Total " + (counts.total ?? 0) + "</span>",
-        "<span>Cars " + (counts.car ?? 0) + "</span>",
-        "<span>Bus " + (counts.bus ?? 0) + "</span>",
-        "<span>Truck " + (counts.truck ?? 0) + "</span>"
-    ].join("");
+    node.innerHTML = renderDetectionCountCells(counts);
 }
 
 async function fetchJunctionStats(cam) {
@@ -953,12 +957,16 @@ function renderCctvStats(payload) {
     }
 
     const counts = payload.counts;
+    const bikes = (Number(counts.bicycle) || 0) + (Number(counts.motorcycle) || 0);
+    const signals = (Number(counts.traffic_light) || 0) + (Number(counts.traffic_sign) || 0);
     const parts = [
-        "YOLO",
+        "High YOLO",
+        "People " + (counts.person ?? 0),
+        "Bikes " + bikes,
         "Cars " + (counts.car ?? 0),
-        "Moto " + (counts.motorcycle ?? 0),
         "Bus " + (counts.bus ?? 0),
         "Truck " + (counts.truck ?? 0),
+        "Signals " + signals,
         "Total " + (counts.total ?? 0)
     ];
     cctvStatus.textContent = parts.join(" · ");
@@ -1005,7 +1013,7 @@ async function initCctvStream() {
     var cctvBaseUrl = "http://" + cctvHost + ":" + cctvPort;
     var cctvFeedUrl = cctvBaseUrl + "/video_feed";
     var cctvStatsUrl = cctvBaseUrl + "/stats";
-    var sourceVideo = "sense05.mov";
+    var sourceVideo = "sense02.mov";
 
     try {
         const config = await fetch("sandbox_data/cctv_stream_config.json?_=" + Date.now());
@@ -1296,7 +1304,7 @@ function setSmartView(viewName) {
             subtitle: formatSmartTimestamp()
         },
         phase2: {
-            title: "Phase 2 Build",
+            title: "Traffic Forecasting",
             subtitle: "Crack-the-Code · Architecture & Feasibility · Required build scope"
         },
         settings: {

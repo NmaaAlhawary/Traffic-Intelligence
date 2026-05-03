@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import com.gub.domain.models.monitoring.ModelLiveSignal
 import com.gub.domain.models.monitoring.ModelLiveSignal.Road.SignalType
 import com.gub.features.monitoring.domain.model.VehicleCountJson
-import com.gub.features.monitoring.presentation.TrafficLightState
 import com.gub.features.monitoring.viewModel.MonitoringUiState
 import com.gub.features.monitoring.viewModel.ViewModelMonitoring
 import kotlinx.coroutines.delay
@@ -443,12 +442,8 @@ private fun SmartTrafficLights(viewModelMonitoring: ViewModelMonitoring) {
                 .align(Alignment.TopCenter)
                 .offset(x = 60.dp, y = 0.dp),
             direction = "N",
-            state = when (uiState.currentPhase) {
-                TrafficPhase.NS_GREEN -> TrafficLightState.GREEN
-                TrafficPhase.NS_YELLOW -> TrafficLightState.YELLOW
-                else -> TrafficLightState.RED
-            },
-            timeRemaining = if (uiState.currentPhase == TrafficPhase.NS_GREEN || uiState.currentPhase == TrafficPhase.NS_YELLOW) uiState.timeRemaining else 0
+            state = signalStateForPhase(uiState.currentPhase, TrafficPhase.NORTH_GREEN),
+            timeRemaining = uiState.timeRemaining
         )
 
         // East Signal (for westbound traffic from Broadway)
@@ -457,12 +452,8 @@ private fun SmartTrafficLights(viewModelMonitoring: ViewModelMonitoring) {
                 .align(Alignment.CenterEnd)
                 .offset(x = (-50).dp, y = 25.dp),
             direction = "E",
-            state = when (uiState.currentPhase) {
-                TrafficPhase.EW_GREEN -> TrafficLightState.GREEN
-                TrafficPhase.EW_YELLOW -> TrafficLightState.YELLOW
-                else -> TrafficLightState.RED
-            },
-            timeRemaining = if (uiState.currentPhase == TrafficPhase.EW_GREEN || uiState.currentPhase == TrafficPhase.EW_YELLOW) uiState.timeRemaining else 0
+            state = signalStateForPhase(uiState.currentPhase, TrafficPhase.EAST_GREEN),
+            timeRemaining = uiState.timeRemaining
         )
 
         // South Signal (for northbound traffic from 42nd St)
@@ -471,12 +462,8 @@ private fun SmartTrafficLights(viewModelMonitoring: ViewModelMonitoring) {
                 .align(Alignment.BottomCenter)
                 .offset(x = (-60).dp, y = (-0).dp),
             direction = "S",
-            state = when (uiState.currentPhase) {
-                TrafficPhase.NS_GREEN -> TrafficLightState.GREEN
-                TrafficPhase.NS_YELLOW -> TrafficLightState.YELLOW
-                else -> TrafficLightState.RED
-            },
-            timeRemaining = if (uiState.currentPhase == TrafficPhase.NS_GREEN || uiState.currentPhase == TrafficPhase.NS_YELLOW) uiState.timeRemaining else 0
+            state = signalStateForPhase(uiState.currentPhase, TrafficPhase.SOUTH_GREEN),
+            timeRemaining = uiState.timeRemaining
         )
 
         // West Signal (for eastbound traffic from Broadway)
@@ -485,14 +472,14 @@ private fun SmartTrafficLights(viewModelMonitoring: ViewModelMonitoring) {
                 .align(Alignment.CenterStart)
                 .offset(x = 50.dp, y = (-25).dp),
             direction = "W",
-            state = when (uiState.currentPhase) {
-                TrafficPhase.EW_GREEN -> TrafficLightState.GREEN
-                TrafficPhase.EW_YELLOW -> TrafficLightState.YELLOW
-                else -> TrafficLightState.RED
-            },
-            timeRemaining = if (uiState.currentPhase == TrafficPhase.EW_GREEN || uiState.currentPhase == TrafficPhase.EW_YELLOW) uiState.timeRemaining else 0
+            state = signalStateForPhase(uiState.currentPhase, TrafficPhase.WEST_GREEN),
+            timeRemaining = uiState.timeRemaining
         )
     }
+}
+
+private fun signalStateForPhase(currentPhase: TrafficPhase, directionPhase: TrafficPhase): TrafficLightState {
+    return if (currentPhase == directionPhase) TrafficLightState.GREEN else TrafficLightState.RED
 }
 
 @Composable
@@ -571,7 +558,7 @@ private fun SmartSignalBox(
             if (timeRemaining > 0) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "$timeRemaining",
+                    "${timeRemaining}s",
                     color = state.color,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
@@ -586,7 +573,7 @@ fun DynamicVehicleFlow(viewModelMonitoring: StateFlow<MonitoringUiState>, vehicl
     val uiState by viewModelMonitoring.collectAsState()
 
     var vehicles by remember { mutableStateOf<List<Vehicle>>(emptyList()) }
-    var currentPhase by remember { mutableStateOf(TrafficPhase.NS_GREEN) }
+    var currentPhase by remember { mutableStateOf(TrafficPhase.NORTH_GREEN) }
 
     println(vehicleCount.toString())
 
@@ -645,44 +632,38 @@ fun DynamicVehicleFlow(viewModelMonitoring: StateFlow<MonitoringUiState>, vehicl
 
 fun determineTrafficPhase(signal: ModelLiveSignal): TrafficPhase {
     return when {
-        (signal.north.type == SignalType.GREEN || signal.south.type == SignalType.GREEN) &&
-                (signal.east.type == SignalType.RED || signal.west.type == SignalType.RED) -> TrafficPhase.NS_GREEN
-
-        (signal.north.type == SignalType.YELLOW || signal.south.type == SignalType.YELLOW) &&
-                (signal.east.type == SignalType.RED || signal.west.type == SignalType.RED) -> TrafficPhase.NS_YELLOW
-
-        (signal.east.type == SignalType.GREEN || signal.west.type == SignalType.GREEN) &&
-                (signal.north.type == SignalType.RED || signal.south.type == SignalType.RED) -> TrafficPhase.EW_GREEN
-
-        (signal.east.type == SignalType.YELLOW || signal.west.type == SignalType.YELLOW) &&
-                (signal.north.type == SignalType.RED || signal.south.type == SignalType.RED) -> TrafficPhase.EW_YELLOW
-
-        else -> TrafficPhase.NS_GREEN // Default
+        signal.north.type == SignalType.GREEN -> TrafficPhase.NORTH_GREEN
+        signal.east.type == SignalType.GREEN -> TrafficPhase.EAST_GREEN
+        signal.south.type == SignalType.GREEN -> TrafficPhase.SOUTH_GREEN
+        signal.west.type == SignalType.GREEN -> TrafficPhase.WEST_GREEN
+        else -> TrafficPhase.ALL_RED
     }
 }
 
 fun shouldVehicleMove(vehicle: Vehicle, currentPhase: TrafficPhase): Boolean {
     return when (currentPhase) {
-        TrafficPhase.NS_GREEN, TrafficPhase.NS_YELLOW -> {
-            // North-South lanes can move
+        TrafficPhase.NORTH_GREEN -> {
             vehicle.lane in listOf(
-                VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3,
+                VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3
+            )
+        }
+        TrafficPhase.EAST_GREEN -> {
+            vehicle.lane in listOf(
+                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3
+            )
+        }
+        TrafficPhase.SOUTH_GREEN -> {
+            vehicle.lane in listOf(
                 VehicleLane.SOUTH_1, VehicleLane.SOUTH_2, VehicleLane.SOUTH_3
             )
         }
-        TrafficPhase.EW_GREEN, TrafficPhase.EW_YELLOW -> {
-            // East-West lanes can move
+        TrafficPhase.WEST_GREEN -> {
             vehicle.lane in listOf(
-                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3,
                 VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3
             )
         }
-
         TrafficPhase.ALL_RED -> {
-            vehicle.lane in listOf(
-                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3,
-                VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3
-            )
+            false
         }
     }
 }
@@ -703,43 +684,20 @@ fun generateVehiclesFromSignal(signal: ModelLiveSignal, vehicleCountJson: String
         }
     }
 
-    // Separate lanes based on current traffic phase
-    val (greenLanes, redLanes) = when (currentPhase) {
-        TrafficPhase.NS_GREEN, TrafficPhase.NS_YELLOW -> {
-            val green = listOf(
-                VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3,
-                VehicleLane.SOUTH_1, VehicleLane.SOUTH_2, VehicleLane.SOUTH_3
-            )
-            val red = listOf(
-                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3,
-                VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3
-            )
-            Pair(green, red)
-        }
-        TrafficPhase.EW_GREEN, TrafficPhase.EW_YELLOW -> {
-            val green = listOf(
-                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3,
-                VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3
-            )
-            val red = listOf(
-                VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3,
-                VehicleLane.SOUTH_1, VehicleLane.SOUTH_2, VehicleLane.SOUTH_3
-            )
-            Pair(green, red)
-        }
+    val northLanes = listOf(VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3)
+    val eastLanes = listOf(VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3)
+    val southLanes = listOf(VehicleLane.SOUTH_1, VehicleLane.SOUTH_2, VehicleLane.SOUTH_3)
+    val westLanes = listOf(VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3)
+    val allLanes = northLanes + eastLanes + southLanes + westLanes
 
-        TrafficPhase.ALL_RED -> {
-            val green = listOf(
-                VehicleLane.EAST_1, VehicleLane.EAST_2, VehicleLane.EAST_3,
-                VehicleLane.WEST_1, VehicleLane.WEST_2, VehicleLane.WEST_3
-            )
-            val red = listOf(
-                VehicleLane.NORTH_1, VehicleLane.NORTH_2, VehicleLane.NORTH_3,
-                VehicleLane.SOUTH_1, VehicleLane.SOUTH_2, VehicleLane.SOUTH_3
-            )
-            Pair(green, red)
-        }
+    val greenLanes = when (currentPhase) {
+        TrafficPhase.NORTH_GREEN -> northLanes
+        TrafficPhase.EAST_GREEN -> eastLanes
+        TrafficPhase.SOUTH_GREEN -> southLanes
+        TrafficPhase.WEST_GREEN -> westLanes
+        TrafficPhase.ALL_RED -> emptyList()
     }
+    val redLanes = allLanes - greenLanes.toSet()
 
     var idCounter = 0
     val vehicles = mutableListOf<Vehicle>()
@@ -776,23 +734,25 @@ fun generateVehiclesFromSignal(signal: ModelLiveSignal, vehicleCountJson: String
     var greenLaneIndex = 0
     for ((type, count) in vehicleTypeMap) {
         val vehiclesForGreenLanes = (count * 0.4).toInt() // 40% moving on green
-        repeat(vehiclesForGreenLanes) {
-            val lane = greenLanes[greenLaneIndex % greenLanes.size]
-            greenLaneIndex++
+        if (greenLanes.isNotEmpty()) {
+            repeat(vehiclesForGreenLanes) {
+                val lane = greenLanes[greenLaneIndex % greenLanes.size]
+                greenLaneIndex++
 
-            // Spread vehicles across the green lanes
-            val movingPosition = Random.nextFloat() * 0.8f
+                // Spread vehicles across the green lanes
+                val movingPosition = Random.nextFloat() * 0.8f
 
-            vehicles.add(
-                Vehicle(
-                    id = idCounter++,
-                    lane = lane,
-                    type = type,
-                    position = movingPosition,
-                    speed = Random.nextFloat() * 0.01f + 0.005f,
-                    color = type.color
+                vehicles.add(
+                    Vehicle(
+                        id = idCounter++,
+                        lane = lane,
+                        type = type,
+                        position = movingPosition,
+                        speed = Random.nextFloat() * 0.01f + 0.005f,
+                        color = type.color
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -957,32 +917,36 @@ private fun TrafficPhaseIndicator(
 
 private fun getCurrentPhaseColor(phase: TrafficPhase): Color {
     return when (phase) {
-        TrafficPhase.NS_GREEN -> Color(0xFF10B981)
-        TrafficPhase.NS_YELLOW -> Color(0xFFFBBF24)
-        TrafficPhase.EW_GREEN -> Color(0xFF10B981)
-        TrafficPhase.EW_YELLOW -> Color(0xFFFBBF24)
+        TrafficPhase.NORTH_GREEN,
+        TrafficPhase.EAST_GREEN,
+        TrafficPhase.SOUTH_GREEN,
+        TrafficPhase.WEST_GREEN -> Color(0xFF10B981)
         TrafficPhase.ALL_RED -> Color(0xFFE20000)
     }
 }
 
 private fun getCurrentPhaseText(phase: TrafficPhase): String {
     return when (phase) {
-        TrafficPhase.NS_GREEN, TrafficPhase.NS_YELLOW -> "N-S"
-        TrafficPhase.EW_GREEN, TrafficPhase.EW_YELLOW -> "E-W"
+        TrafficPhase.NORTH_GREEN -> "N"
+        TrafficPhase.EAST_GREEN -> "E"
+        TrafficPhase.SOUTH_GREEN -> "S"
+        TrafficPhase.WEST_GREEN -> "W"
         TrafficPhase.ALL_RED -> ""
     }
 }
 
 private fun getPhaseStatus(phase: TrafficPhase): String {
     return when (phase) {
-        TrafficPhase.NS_GREEN, TrafficPhase.EW_GREEN -> "GREEN"
-        TrafficPhase.NS_YELLOW, TrafficPhase.EW_YELLOW -> "YELLOW"
+        TrafficPhase.NORTH_GREEN,
+        TrafficPhase.EAST_GREEN,
+        TrafficPhase.SOUTH_GREEN,
+        TrafficPhase.WEST_GREEN -> "GREEN"
         TrafficPhase.ALL_RED -> "RED"
     }
 }
 
 enum class TrafficPhase {
-    NS_GREEN, NS_YELLOW, EW_GREEN, EW_YELLOW, ALL_RED
+    NORTH_GREEN, EAST_GREEN, SOUTH_GREEN, WEST_GREEN, ALL_RED
 }
 
 @Composable

@@ -31,5 +31,5 @@
     "field_of_view_deg": 78,
     "mounting": "overhead-intersection"
   },
-  "serve_command": "../.venv/bin/python src/http_stream.py --video ../../CityFlow/data/wts_videos/sense05.mov --port 8010 --camera-id 'CAM-01 NORTH' --width 1280 --height 720 --fps 10"
+  "serve_command": ".venv/bin/python src/http_stream.py --video ../../CityFlow/data/wts_videos/sense05.mov --port 8010 --camera-id 'CAM-05 OVERVIEW' --width 1280 --height 720 --fps 10 --model model/yolov8m.pt --confidence 0.18 --imgsz 960 --infer-every 1"
 }

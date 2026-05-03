@@ -204,10 +204,10 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                             Spacer(modifier = Modifier.height(12.dp))
 
                             ControlButton(
-                                text = "Extend Green Time",
+                                text = "Adjust Signal Time",
                                 icon = Icons.Default.Timer,
                                 color = Color(0xFF4CAF50),
-                                description = "Add 30 seconds to current phase",
+                                description = "Set green duration or extend current phase",
                                 onClick = { position = 2 }
                             )
 
@@ -312,7 +312,7 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                         }
                     }
                     2 -> {
-                        // Extend Green Time Page
+                        // Signal Time Page
                         Column(
                             modifier = Modifier.padding(20.dp)
                         ) {
@@ -331,7 +331,7 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                                     )
                                 }
                                 Text(
-                                    "Extend Green Time",
+                                    "Adjust Signal Time",
                                     color = MaterialTheme.colorScheme.onSurface,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold
@@ -342,7 +342,46 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                             Spacer(modifier = Modifier.height(16.dp))
 
                             var selectedTime by remember { mutableStateOf(30) }
+                            var selectedDuration by remember { mutableStateOf(uiState.value.greenPhaseDurationSeconds) }
                             val timeOptions = listOf(15, 30, 45, 60)
+                            val durationOptions = listOf(20, 35, 45, 60)
+
+                            Text(
+                                "Green phase duration:",
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.Medium
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                durationOptions.forEach { time ->
+                                    FilterChip(
+                                        selected = selectedDuration == time,
+                                        onClick = { selectedDuration = time },
+                                        label = { Text("${time}s") }
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Button(
+                                onClick = {
+                                    viewModelMonitoring.setGreenPhaseDuration(selectedDuration)
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                ),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("SET GREEN TIME TO ${selectedDuration}S")
+                            }
+
+                            Spacer(modifier = Modifier.height(20.dp))
 
                             Text(
                                 "Select extension time:",
@@ -383,6 +422,11 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                                     )
                                     Text(
                                         "Time remaining: ${uiState.value.timeRemaining} seconds",
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 14.sp
+                                    )
+                                    Text(
+                                        "Green duration: ${uiState.value.greenPhaseDurationSeconds} seconds",
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontSize = 14.sp
                                     )
@@ -443,11 +487,11 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                             Spacer(modifier = Modifier.height(16.dp))
 
                             ManualControlButton(
-                                text = "North-South Green",
-                                isActive = uiState.value.currentPhase == TrafficPhase.NS_GREEN,
+                                text = "North Green",
+                                isActive = uiState.value.currentPhase == TrafficPhase.NORTH_GREEN,
                                 onClick = {
                                     viewModelMonitoring.manualControl(
-                                        TrafficPhase.NS_GREEN
+                                        TrafficPhase.NORTH_GREEN
                                     )
                                 }
                             )
@@ -455,11 +499,35 @@ fun TrafficControlPanelCard(modifier: Modifier = Modifier, viewModelMonitoring: 
                             Spacer(modifier = Modifier.height(12.dp))
 
                             ManualControlButton(
-                                text = "East-West Green",
-                                isActive = uiState.value.currentPhase == TrafficPhase.EW_GREEN,
+                                text = "East Green",
+                                isActive = uiState.value.currentPhase == TrafficPhase.EAST_GREEN,
                                 onClick = {
                                     viewModelMonitoring.manualControl(
-                                        TrafficPhase.EW_GREEN
+                                        TrafficPhase.EAST_GREEN
+                                    )
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            ManualControlButton(
+                                text = "South Green",
+                                isActive = uiState.value.currentPhase == TrafficPhase.SOUTH_GREEN,
+                                onClick = {
+                                    viewModelMonitoring.manualControl(
+                                        TrafficPhase.SOUTH_GREEN
+                                    )
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            ManualControlButton(
+                                text = "West Green",
+                                isActive = uiState.value.currentPhase == TrafficPhase.WEST_GREEN,
+                                onClick = {
+                                    viewModelMonitoring.manualControl(
+                                        TrafficPhase.WEST_GREEN
                                     )
                                 }
                             )
@@ -888,9 +956,30 @@ fun SignalTimingCard(modifier: Modifier = Modifier, uiState: MonitoringUiState) 
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            SignalPhase("North-South", uiState.averageNSGreen.toInt(), uiState.timeRemaining, TrafficLightState.GREEN)
-            SignalPhase("East-West", uiState.averageEWGreen.toInt(), uiState.timeRemaining, TrafficLightState.RED)
-//            SignalPhase("Left Turn", 15, 0, TrafficLightState.RED)
+            SignalPhase(
+                "North",
+                uiState.greenPhaseDurationSeconds,
+                if (uiState.currentPhase == TrafficPhase.NORTH_GREEN) uiState.timeRemaining else 0,
+                if (uiState.currentPhase == TrafficPhase.NORTH_GREEN) TrafficLightState.GREEN else TrafficLightState.RED
+            )
+            SignalPhase(
+                "East",
+                uiState.greenPhaseDurationSeconds,
+                if (uiState.currentPhase == TrafficPhase.EAST_GREEN) uiState.timeRemaining else 0,
+                if (uiState.currentPhase == TrafficPhase.EAST_GREEN) TrafficLightState.GREEN else TrafficLightState.RED
+            )
+            SignalPhase(
+                "South",
+                uiState.greenPhaseDurationSeconds,
+                if (uiState.currentPhase == TrafficPhase.SOUTH_GREEN) uiState.timeRemaining else 0,
+                if (uiState.currentPhase == TrafficPhase.SOUTH_GREEN) TrafficLightState.GREEN else TrafficLightState.RED
+            )
+            SignalPhase(
+                "West",
+                uiState.greenPhaseDurationSeconds,
+                if (uiState.currentPhase == TrafficPhase.WEST_GREEN) uiState.timeRemaining else 0,
+                if (uiState.currentPhase == TrafficPhase.WEST_GREEN) TrafficLightState.GREEN else TrafficLightState.RED
+            )
         }
     }
 }
@@ -931,7 +1020,7 @@ fun SignalPhase(direction: String, totalTime: Int, remaining: Int, state: Traffi
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .fillMaxWidth(if (totalTime > 0) remaining.toFloat() / totalTime else 0f)
+                    .fillMaxWidth(if (totalTime > 0) (remaining.toFloat() / totalTime).coerceIn(0f, 1f) else 0f)
                     .background(state.color, RoundedCornerShape(2.dp))
             )
         }

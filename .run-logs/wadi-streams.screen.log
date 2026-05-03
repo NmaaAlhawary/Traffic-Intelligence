@@ -1,0 +1,136 @@
+Started CAM-05 OVERVIEW on :8010 using sense05.mov with yolov12s.pt
+Started CAM-01 NORTH on :8011 using sense01.mov with yolov12s.pt
+Started CAM-02 SOUTH on :8012 using sense02.mov with yolov12s.pt
+Started CAM-03 EAST on :8013 using sense03.mov with yolov12s.pt
+Started CAM-04 WEST on :8014 using sense04.mov with yolov12s.pt
+Started incident aggregator on :5002
+Started Traffic AI Dashboard  →  http://localhost:8000/
+Traffic AI Dashboard  →  http://localhost:8000/
+Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/selector_events.py", line 1098, in _write_sendmsg
+    nbytes = self._sock.sendmsg(self._get_sendmsg_buffer())
+BrokenPipeError: [Errno 32] Broken pipe
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_middlewares.py", line 117, in impl
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1162, in cors_middleware
+    response = await handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1277, in video_feed
+    await response.write(frame)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_response.py", line 560, in write
+    await self._payload_writer.write(data)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 208, in write
+    await self.drain()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 351, in drain
+    await protocol._drain_helper()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/base_protocol.py", line 100, in _drain_helper
+    await asyncio.shield(waiter)
+ConnectionError: Connection lost
+Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/selector_events.py", line 1098, in _write_sendmsg
+    nbytes = self._sock.sendmsg(self._get_sendmsg_buffer())
+BrokenPipeError: [Errno 32] Broken pipe
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_middlewares.py", line 117, in impl
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1162, in cors_middleware
+    response = await handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1277, in video_feed
+    await response.write(frame)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_response.py", line 560, in write
+    await self._payload_writer.write(data)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 208, in write
+    await self.drain()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 351, in drain
+    await protocol._drain_helper()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/base_protocol.py", line 100, in _drain_helper
+    await asyncio.shield(waiter)
+ConnectionError: Connection lost
+Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/selector_events.py", line 1098, in _write_sendmsg
+    nbytes = self._sock.sendmsg(self._get_sendmsg_buffer())
+BrokenPipeError: [Errno 32] Broken pipe
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_middlewares.py", line 117, in impl
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1162, in cors_middleware
+    response = await handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1277, in video_feed
+    await response.write(frame)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_response.py", line 560, in write
+    await self._payload_writer.write(data)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 208, in write
+    await self.drain()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 351, in drain
+    await protocol._drain_helper()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/base_protocol.py", line 100, in _drain_helper
+    await asyncio.shield(waiter)
+ConnectionError: Connection lost
+Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/selector_events.py", line 1098, in _write_sendmsg
+    nbytes = self._sock.sendmsg(self._get_sendmsg_buffer())
+BrokenPipeError: [Errno 32] Broken pipe
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_middlewares.py", line 117, in impl
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1162, in cors_middleware
+    response = await handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/src/http_stream.py", line 1277, in video_feed
+    await response.write(frame)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/web_response.py", line 560, in write
+    await self._payload_writer.write(data)
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 208, in write
+    await self.drain()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/http_writer.py", line 351, in drain
+    await protocol._drain_helper()
+  File "/Users/namaaalhawary/Desktop/Traffic 2/Smart-Traffic-Management-System/detection/.venv/lib/python3.14/site-packages/aiohttp/base_protocol.py", line 100, in _drain_helper
+    await asyncio.shield(waiter)
+ConnectionError: Connection lost

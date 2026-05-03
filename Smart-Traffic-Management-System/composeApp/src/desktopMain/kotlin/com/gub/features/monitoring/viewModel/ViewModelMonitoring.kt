@@ -25,9 +25,17 @@ class ViewModelMonitoring(
     val uiState: StateFlow<MonitoringUiState> = _uiState.asStateFlow()
 
     private var signalTimerJob: Job? = null
+    private val greenPhases = setOf(
+        TrafficPhase.NORTH_GREEN,
+        TrafficPhase.EAST_GREEN,
+        TrafficPhase.SOUTH_GREEN,
+        TrafficPhase.WEST_GREEN
+    )
     private var greenDurations = mutableMapOf(
-        TrafficPhase.NS_GREEN to mutableListOf<Int>(),
-        TrafficPhase.EW_GREEN to mutableListOf<Int>()
+        TrafficPhase.NORTH_GREEN to mutableListOf<Int>(),
+        TrafficPhase.EAST_GREEN to mutableListOf<Int>(),
+        TrafficPhase.SOUTH_GREEN to mutableListOf<Int>(),
+        TrafficPhase.WEST_GREEN to mutableListOf<Int>()
     )
 
     init {
@@ -60,7 +68,7 @@ class ViewModelMonitoring(
                         state.copy(timeRemaining = newTime)
                     } else {
                         // Track green phase duration
-                        if (state.currentPhase == TrafficPhase.NS_GREEN || state.currentPhase == TrafficPhase.EW_GREEN) {
+                        if (state.currentPhase in greenPhases) {
                             greenDurations[state.currentPhase]?.add(state.originalGreenTime)
                         }
 
@@ -71,8 +79,11 @@ class ViewModelMonitoring(
                             currentPhase = nextPhaseWithTime.first,
                             timeRemaining = nextPhaseWithTime.second,
                             originalGreenTime = nextPhaseWithTime.second,
-                            averageNSGreen = computeAverage(TrafficPhase.NS_GREEN),
-                            averageEWGreen = computeAverage(TrafficPhase.EW_GREEN)
+                            trafficPhase = nextPhaseWithTime.first,
+                            averageNorthGreen = computeAverage(TrafficPhase.NORTH_GREEN),
+                            averageEastGreen = computeAverage(TrafficPhase.EAST_GREEN),
+                            averageSouthGreen = computeAverage(TrafficPhase.SOUTH_GREEN),
+                            averageWestGreen = computeAverage(TrafficPhase.WEST_GREEN)
                         )
                     }
                 }
@@ -82,30 +93,44 @@ class ViewModelMonitoring(
 
     fun extendGreenTime(seconds: Int) {
         _uiState.update { state ->
-            if (state.currentPhase != TrafficPhase.ALL_RED) {
+            if (state.currentPhase in greenPhases) {
                 state.copy(timeRemaining = state.timeRemaining + seconds)
             } else state
         }
     }
 
+    fun setGreenPhaseDuration(seconds: Int) {
+        val duration = seconds.coerceIn(5, 180)
+        _uiState.update { state ->
+            state.copy(
+                greenPhaseDurationSeconds = duration,
+                timeRemaining = if (state.currentPhase in greenPhases) duration else state.timeRemaining,
+                originalGreenTime = if (state.currentPhase in greenPhases) duration else state.originalGreenTime
+            )
+        }
+    }
+
     fun manualControl(phase: TrafficPhase) {
         signalTimerJob?.cancel()
-        _uiState.update {
-            it.copy(
+        _uiState.update { state ->
+            val duration = if (phase == TrafficPhase.ALL_RED) 60 else state.greenPhaseDurationSeconds
+            state.copy(
                 currentPhase = phase,
-                timeRemaining = 60,
-                originalGreenTime = 60
+                trafficPhase = phase,
+                timeRemaining = duration,
+                originalGreenTime = duration
             )
         }
         startSignalTimer()
     }
 
     fun resetToAutoMode() {
-        _uiState.update {
-            it.copy(
-                currentPhase = TrafficPhase.NS_GREEN,
-                timeRemaining = 5,
-                originalGreenTime = 5
+        _uiState.update { state ->
+            state.copy(
+                currentPhase = TrafficPhase.NORTH_GREEN,
+                trafficPhase = TrafficPhase.NORTH_GREEN,
+                timeRemaining = state.greenPhaseDurationSeconds,
+                originalGreenTime = state.greenPhaseDurationSeconds
             )
         }
         startSignalTimer()
@@ -130,6 +155,7 @@ class ViewModelMonitoring(
         _uiState.update {
             it.copy(
                 currentPhase = TrafficPhase.ALL_RED,
+                trafficPhase = TrafficPhase.ALL_RED,
                 timeRemaining = 60
             )
         }
@@ -145,13 +171,16 @@ class ViewModelMonitoring(
 data class MonitoringUiState(
     val isEmergency: Boolean = false,
     val isLoading: Boolean = true,
-    val timeRemaining: Int = 5,
-    val originalGreenTime: Int = 5,
-    val currentPhase: TrafficPhase = TrafficPhase.NS_GREEN,
+    val timeRemaining: Int = 35,
+    val originalGreenTime: Int = 35,
+    val greenPhaseDurationSeconds: Int = 35,
+    val currentPhase: TrafficPhase = TrafficPhase.NORTH_GREEN,
     val liveSignal: ModelLiveSignal? = null,
-    val trafficPhase: TrafficPhase = TrafficPhase.NS_GREEN,
-    val averageNSGreen: Double = 0.0,
-    val averageEWGreen: Double = 0.0,
+    val trafficPhase: TrafficPhase = TrafficPhase.NORTH_GREEN,
+    val averageNorthGreen: Double = 0.0,
+    val averageEastGreen: Double = 0.0,
+    val averageSouthGreen: Double = 0.0,
+    val averageWestGreen: Double = 0.0,
     val error: String? = null
 )
 

@@ -22,3 +22,8 @@ dist/
 
 # Generated project output
 Smart-Traffic-Management-System/server/bin/
+
+# Local runtime DB artifacts
+Smart-Traffic-Management-System/detection/data/traffic_events.db
+Smart-Traffic-Management-System/detection/data/traffic_events.db-shm
+Smart-Traffic-Management-System/detection/data/traffic_events.db-wal
